@@ -335,7 +335,7 @@ Please see the link below for the university policies on academic
 offenses for official descriptions of cheating and plagarism and the
 processes and penalties for violations of the policies.
 
-<https://regs.uky.edu/sites/default/files/2024-06/administrative-regulation-academic-and-student-affairs.pdf#page=94>
+<https://provost.uky.edu/proposals/guidance-course-proposals/academic-offenses>
 
 ## Diversity and inclusion
 
@@ -345,6 +345,13 @@ and sexual identities. Conduct that is not respectful of these
 identities or of the national origin, religion, and political beliefs
 students and instructors will not be tolerated. Please report any
 concerning conduct to the instructor.
+
+For the University of Kentucky statement on diversity, equity and
+inclusion, please see
+<https://provost.uky.edu/proposals/guidance-course-proposals/diversity-equity-inclusion-statement>.
+
+For information about reporting bias, harassment, or other issues or
+seeking accommodations, please see <https://ieeo.uky.edu/contact-us>.
 
 ## Face covering/distancing policy
 
