@@ -21,7 +21,7 @@ colorlinks: true
 | **Credits**        | 3                                                             |
 | **Class Time**     | Tuesday & Thursday 11-12:15pm                                 |
 | **Class Location** | JSB 347                                                       |
-| **Website**        | <https://github.com/vancleve/BIO540-DWV> (github website)    |
+| **Website**        | <https://github.com/vancleve/BIO540-DWV> (github website)     |
 |                    | <https://uk.instructure.com/courses/2122860> (Canvas website) |
 
 # Course description
