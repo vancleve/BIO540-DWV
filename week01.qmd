@@ -39,8 +39,6 @@ If you need directions, this may help: <https://quarto.org/docs/get-started/hell
 
 We have access to R, RStudio, and Quarto via the Posit Cloud. Go to the [Canvas site][canvas site] and find the Announcement where I welcome you to the course. There will be a link there to the course content on the Posit Cloud. You should then arrive at a page that looks like this,
 
-this address, <https://rstudio.as.uky.edu>, and you should see a login screen like this:
-
 ![Login screen for Posit Cloud](assets/posit_cloud_login.jpg){width=50%}
 If you already have a Posit Cloud account, then login with that. Otherwise, select "Sign Up" and create an account. Once you've created your account, you may have to click on the link to the course content again. Then, you should be able to join the workspace and see this:
 
