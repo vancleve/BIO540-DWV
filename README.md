@@ -1,4 +1,4 @@
-![](assets/cases.jpg) 
+![](assets/covid-19_KY-TN_deaths.jpg) 
 
 # Course information
 
@@ -13,7 +13,7 @@
 | **Credits** | 3 |
 | **Class Time** | Tuesday & Thursday 11-12:15pm |
 | **Class Location** | JSB 347 |
-| **Website** | <https://github.com/vancleve/BIO540-DWVR> (github website) |
+| **Website** | <https://github.com/vancleve/BIO540-DWV> (github website) |
 |  | <https://uk.instructure.com/courses/2122860> (Canvas website) |
 
 # Course description
@@ -301,7 +301,8 @@ as the semester progress.
 |  | 11/05 | **Election Day** |
 |  | 11/07 | Principles of displaying data & how to modify plots |
 | 11 | 11/12 & 11/14 | Colors and heat maps |
-| 12 | 11/19 & 11/21 | Visualizing/analyzing lots of data |
+| 12 | 11/19 | Visualizing/analyzing lots of data |
+|  | 11/21 | Research data management (UK Data Librarian Isaac Wink) |
 | 13 | 11/26 | Networks |
 |  | 11/28 | **Thanksgiving Break** |
 |  | 12/03 | Project presentations |
@@ -337,7 +338,7 @@ processes and penalties for violations of the policies.
 
 <https://provost.uky.edu/proposals/guidance-course-proposals/academic-offenses>
 
-## Diversity and inclusion
+## Belonging and engagement
 
 Members of the course are entitled to learn from each other in an open
 and welcoming environment regardless of their racial, ethnic, gender,
@@ -345,10 +346,6 @@ and sexual identities. Conduct that is not respectful of these
 identities or of the national origin, religion, and political beliefs
 students and instructors will not be tolerated. Please report any
 concerning conduct to the instructor.
-
-For the University of Kentucky statement on diversity, equity and
-inclusion, please see
-<https://provost.uky.edu/proposals/guidance-course-proposals/diversity-equity-inclusion-statement>.
 
 For information about reporting bias, harassment, or other issues or
 seeking accommodations, please see <https://ieeo.uky.edu/contact-us>.

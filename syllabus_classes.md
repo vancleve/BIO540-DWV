@@ -20,7 +20,8 @@ as the semester progress.
 |      | 11/05         | **Election Day**                                           |
 |      | 11/07         | Principles of displaying data & how to modify plots        |
 | 11   | 11/12 & 11/14 | Colors and heat maps                                       |
-| 12   | 11/19 & 11/21 | Visualizing/analyzing lots of data                         |
+| 12   | 11/19         | Visualizing/analyzing lots of data                         |
+|      | 11/21         | Research data management (UK Data Librarian Isaac Wink)    |
 | 13   | 11/26         | Networks                                                   |
 |      | 11/28         | **Thanksgiving Break**                                     |
 |      | 12/03         | Project presentations                                      |

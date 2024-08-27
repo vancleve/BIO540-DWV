@@ -28,16 +28,13 @@ for violations of the policies.
 
 <https://provost.uky.edu/proposals/guidance-course-proposals/academic-offenses>
 
-## Diversity and inclusion
+## Belonging and engagement
 
 Members of the course are entitled to learn from each other in an open and
 welcoming environment regardless of their racial, ethnic, gender, and sexual
 identities. Conduct that is not respectful of these identities or of the
 national origin, religion, and political beliefs students and instructors will
 not be tolerated. Please report any concerning conduct to the instructor.
-
-For the University of Kentucky statement on diversity, equity and inclusion, please see
-<https://provost.uky.edu/proposals/guidance-course-proposals/diversity-equity-inclusion-statement>.
 
 For information about reporting bias, harassment, or other issues or seeking accommodations, please see
 <https://ieeo.uky.edu/contact-us>.
