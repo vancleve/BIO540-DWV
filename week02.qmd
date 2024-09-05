@@ -293,4 +293,29 @@ squares its argument
 
 # Lab ![](assets/beaker.png)
 
-Thursday...
+1.  Write a function that takes a single vector argument and prints out the indices (i.e., location in the vector) that are greater than zero. For example, if you create a vector of normally distributed random numbers, 
+    ```{r}
+    #| eval: false
+    rvec = rnorm(100)
+    ```
+    then your function should output the numbers between 1 and 100 where the vector is positive. For example,
+    ```{r}
+    #| eval: false
+    your_fuction(rvec)
+    ```
+    would then output something like `[1] 3 56 19 40 58 99`.
+    
+    Tips. Use a `for` loop.
+
+2.  Write a function that takes as input two vectors and returns an output vector of the same length where each element of the output is sum of the two elements of the two input vectors.
+
+    Tips. Use a for loop again.\
+    +3 pts: write the function so that it can take any number of input vectors (hint: search for something like "variable number of arguments")
+
+3.  Suppose you are working on same data with a "month" column specifying the month the data were collected. However, the person generating the data did not use a consistent way of inputting the month and alternated between either a number, a three letter abbreviation, or the full month name. Write a function that takes as input the `month` vector below, which represents this messy month column, and returns an output vector where the months are now all either a number, three letter abbreviation, or full name (your choice as to which to output). In short, your function should take the `months` vector and return a cleaned up version with only a single format for representing the month.
+
+    ```{r}
+    #| warning: false
+    library(tidyverse)
+    months = read_csv("months.csv") |> pull(month)
+    ```
