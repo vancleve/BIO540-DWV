@@ -171,6 +171,7 @@ Given that you can slice matrices now, you will at some point want to apply some
 
 In R, there are actually many `apply` functions since there are vectors, lists, and other types of objects with multiple elements that one might to iterate over. To see them all, you type
 ```{r}
+#| eval: false
 ??base::apply
 ```
 which searches for all functions with "apply" in the description in the "base" package. 
@@ -217,4 +218,65 @@ sum(apply(rmatx, 1, \(x) sum(x < 8)))
 
 # Lab ![](assets/beaker.png)
 
-Thursday...
+### Data
+
+Now let's slice some real **DATA**. We'll use data on respiratory infections including COVID-19 from the Centers for Disease Control (CDC). These data are split up between [hospitalizations](https://data.cdc.gov/Public-Health-Surveillance/Weekly-United-States-Hospitalization-Metrics-by-Ju/aemt-mg7g/about_data) and [deaths](https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Week-Ending-D/r8kw-7aab/about_data). The data are accessible from a CDC database online, and we load them in below and combine them (see the code for an example of some of the data wrangling necessary to do this).
+
+```{r}
+#| message: false
+library(tidyverse)
+library(RSocrata) 
+
+# Read in hospitalization and deaths
+us_hosps  = read.socrata("https://data.cdc.gov/api/odata/v4/aemt-mg7g") |> as_tibble()
+us_deaths = read.socrata("https://data.cdc.gov/api/odata/v4/r8kw-7aab") |> as_tibble()
+#us_hosps  = read_csv("US_COVID19_Hosps_ByWeek_ByState_20240125.csv")
+#us_deaths = read_csv("US_COVID19_Deaths_ByWeek_ByState_20240125.csv")
+
+us_hosps_deaths = 
+  us_deaths |> 
+  rename(week_end_date = week_ending_date) |> # rename this column to match column in `us_hosps`
+  select(-c(`data_as_of`, `start_date`, `end_date`, group, year, month, mmwr_week, footnote)) |> # get rid of excess columns in deaths table
+  inner_join( # join the two tables together
+    us_hosps |>
+      rename(state_abbrv = jurisdiction) |> # `us_hosps` has states as abbreviations so we'll need to add full state names
+      inner_join(tibble(state_abbrv = state.abb, state = state.name) |> 
+                  add_row(state_abbrv = c("USA", "DC", "PR"), state = c("United States", "District of Columbia", "Puerto Rico")))) |>
+  filter(state != "United States")
+```
+You can get the first few rows with
+```{r}
+head(us_hosps_deaths)
+```
+
+The data are saved as a `tibble`, which is really a fancy `data.frame`, which is a special kind of list that we will discuss in more detail next week. For this lab, we will practice slicing the `data.frame` as if it were a matrix. 
+
+**Please include the code chunk above that loads in the data and creates the `us_hosps_deaths` data table as the first code chunk in the markdown file that you submit for this assignment.** That way, the table will be present when I run the code in your markdown file.
+
+### Problems
+
+Use `us_hosps_deaths` data table from the code above for each of the problems belove. You should be able to use a few lines of R code to obtain the answer directly (i.e., you shouldn't just scroll though the data table and give the answer by hand). Use the vector indexing operations discussed this week to do your slicing (even if you know another way using `dplyr` or other R packages). 
+
+This is a big table so use the `str(us_hosps_deaths)` function to get information on all the columns and `view(us_hosps_deaths)` will bring up the GUI viewer of the table. Also, make use of the links above in the "Data" section to the CDC website to see more info on what data each column contains.
+
+1.  Which **state** had the most **deaths** during one week in 2021? Which week was that?\
+    (hint: remember you can compare dates: e.g., "2021-01-02" > "2021-01-01" is `TRUE`, etc.)\
+    (hint: you'll need the boolean `&`, **single ampersand**, to combine multiple conditions when they involve vectors)\
+    (hint: your solution might use the `which.max` function)
+
+2.  How many COVID-19 deaths has Kentucky had during 2021?\
+    (hint: use the `sum` function)
+
+3.  How many COVID-19 deaths were there outside of California in the month of August 2021?
+
+4.  Which US state has the second fewest COVID-19 hospitalizations in 2021? Use the column `total_admissions_all_covid_confirmed`\
+    (hint: get a vector of all the (unique) states)\
+    (hint: use `sapply` on that vector with an anonymous function that sums the hospitalization column for the right state and dates)\
+    (hint: use `sort` to help you find the second fewest hospitalizations)
+
+5. Which week in 2021 had the highest number of hospitalizations in the country (across all states and territories)? Use the column `total_admissions_all_covid_confirmed`\
+   (hint: use `sapply` and `sum` to get the totals for each date in a way similar to question 4. Then use the `order` function to give you the right order to sort the dates...)
+
+   
+
+
