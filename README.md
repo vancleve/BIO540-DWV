@@ -290,7 +290,7 @@ as the semester progress.
 | 1 | 08/27 & 08/29 | Intro to the course and markdown, and Quarto | [html](https://vancleve.github.io/BIO540-DWV/week01.html) |
 | 2 | 09/03 & 09/05 | Intro to R: data types, flow control, and functions | [html](https://vancleve.github.io/BIO540-DWV/week02.html) |
 | 3 | 09/10 & 09/12 | Vectors, slicing, and map(ping) | [html](https://vancleve.github.io/BIO540-DWV/week03.html) |
-| 4 | 09/17 & 09/19 | Getting data into R data.frames via files and spreadsheets |  |
+| 4 | 09/17 & 09/19 | Getting data into R data.frames via files and spreadsheets | [html](https://vancleve.github.io/BIO540-DWV/week04.html) |
 | 5 | 09/24 & 09/26 | Tidy Data |  |
 | 6 | 10/01 & 11/03 | Joins and databases |  |
 | 7 | 10/08 & 10/10 | Text manipulation and regular expressions |  |
