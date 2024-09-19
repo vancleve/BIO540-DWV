@@ -267,4 +267,32 @@ Note also that in the `html`, the full data frame is printed, which means tons o
 
 # Lab ![](assets/beaker.png)
 
-Thursday...
+Now that you have all the essential elements of slicing, let's do some more things with COVID-19 data, but this time with world wide data from "[Our World in Data](https://ourworldindata.org/coronavirus)": <https://docs.owid.io/projects/etl/api/covid/>. This is a big data set, so it might take a few moments to download.
+
+**Note**. The cases and deaths are only reported every week in these data so `new_cases`, `new_deaths`, etc are the total for the week (I assume the date is the end of the week though the website wasn't clear 🤷).
+
+```{r}
+#| message: false
+library(tidyverse)
+
+owid = read_csv("https://catalog.ourworldindata.org/garden/covid/latest/compact/compact.csv")
+```
+
+Before starting on the problems, take a look at which columns are provided in the table. This will help for solving the problems.
+
+### Problems
+
+1.  Plot the new cases per week per million people for the pandemic for the United States. Use a line plot.\
+    (hint: use the help for plot, `?base::plot`, to figure out how to set the plot type.)\
+    (hint: try to make plot not too jagged by removing rows where `new_cases == 0`)
+
+2.  What week had the highest number of new deaths in the United States?\
+    (hint: use the `order` (remember to sort descending) or `which.max` functions.)
+
+3.  What date and in what country was the worst (i.e., highest) for per capita death due to COVID-19?
+
+4.  What date and in what country was the worst (i.e., highest) for positivity rate COVID-19?
+
+5.  Create a **new data frame** using the data from `owid` called `new_cases_per_100k` consisting of the following columns, `location`, `date`, and `cases`, where `cases` is the number of new cases per 100,000 people. In two separate plots, plot the number of new cases per 100k people over time for the United Kingdom (plot 1) and Canada (plot 2). If you wanted to present these plots side by side so as to compare the severity of the pandemic in the UK vs Canada, what might you have to do to make them more comparable?
+
+6.  In 2021, on how many days did the United States have fewer than 0.7 deaths per million people due to COVID-19? What is answer the United Kingdom? Use the column `new_deaths_smoothed_per_million` to answer this question.
