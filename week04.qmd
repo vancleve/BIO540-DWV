@@ -296,3 +296,7 @@ Before starting on the problems, take a look at which columns are provided in th
 5.  Create a **new data frame** using the data from `owid` called `new_cases_per_100k` consisting of the following columns, `location`, `date`, and `cases`, where `cases` is the number of new cases per 100,000 people. In two separate plots, plot the number of new cases per 100k people over time for the United Kingdom (plot 1) and Canada (plot 2). If you wanted to present these plots side by side so as to compare the severity of the pandemic in the UK vs Canada, what might you have to do to make them more comparable?
 
 6.  In 2021, on how many days did the United States have fewer than 0.7 deaths per million people due to COVID-19? What is answer the United Kingdom? Use the column `new_deaths_smoothed_per_million` to answer this question.
+
+-   Challenge problem (+3 extra credit)
+    
+    Plot a heatmap of the imprinting data using the `heatmap` function. The rows and columns of the heatmap should be labeled properly with the gene names (rows) and tissue names (columns). The Babak et al. (2015) paper has a similar heatmap in Fig 1. Hint: read carefully the help for the `heatmap` function and know that you can convert data frames to matrices with `as.matrix`.
