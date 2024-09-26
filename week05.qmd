@@ -62,10 +62,7 @@ To give a flavor of the power of tidy data and `ggplot2`, we'll look at an examp
 # we'll load a subset of these data; namely, the 100 diseases with the most SNPs in the database once we remove those associated with some common body/weight and education phenotypes
 # to clean things up a little, we filter out rows where the CHR_POS isn't a single number; this way, the x-axis label is nice automatically.
 
-gwas = read_tsv("gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv") |>
-  filter(!grepl("x|;", CHR_POS)) |>
-  filter(!is.na(CHR_POS)) |>
-  mutate(CHR_POS = as.numeric(CHR_POS))
+gwas = read_tsv("gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv", col_types = cols(CHR_POS = col_number()))
 
 filter(gwas, `DISEASE/TRAIT` == 'Prostate cancer' | `DISEASE/TRAIT` == "Colorectal cancer" | `DISEASE/TRAIT` == "Breast cancer") |>
   ggplot(aes(x=CHR_POS)) + 
@@ -296,4 +293,42 @@ For these problems, use the functions introduced above from the `tidyverse` pack
 
 ### Problems
 
-Thursday...
+For these problems, use the functions introduced above from the `tidyverse` packages like `dplyr` as much as possible.
+
+### Problems
+
+1.  Using the GWAS data, 
+    ```{r}
+    library(tidyverse)
+    gwas = read_tsv("gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv", col_types = cols(CHR_POS = col_number()))
+    ```
+    produce a data table that shows the **mean**, **maximum**, **minimum**, and **variance** of `PVALUE_MLOG` for each combination of disease and journal. Sort the table by the mean value of `PVALUE_MLOG`.
+
+2.  Recall the gene expression last that was briefly introduced last week:
+    ```{r}
+    library(readxl)
+    imprint = read_excel("babak-etal-2015_imprinted-mouse.xlsx", na = "NaN")
+    ```
+    
+    Each row is a gene, each column is a tissue type, and each cell contains a gene expression measurement.
+
+    **Make these data tidy (in one way) by collapsing the tissue columns and making the data table longer**
+    
+    You will need the `pivot_longer` function. The first trick here will be first to identify the "observations" and then the "names_to", which is the variable that changes across each observation. 
+    
+    The second trick is specifying the columns across which you need to gather together into a single column. A hint for the second trick is that you can specify the columns you don't want with the `-` operator or `!` (NOT) operator.
+    
+    The answer will be deceivingly simple! This is the elegance / frustration of R. 
+    
+3.  Using the tidy data from Problem 2, find the **number of genes** (across all tissue types) that have an **expression value <= 10 and  > 2**. These genes are "paternally imprinted" in the Babak et al. dataset, which means they are only expressed from the maternal copy of the gene. 
+
+    Hint: you will need to count each gene once even if it appears in multiple rows, which can be done with the `distinct` function.
+
+4.  Use `pivot_wider` to return the genomic imprinting tidy data from Problem 2 to their original wide format.
+
+5.  We'll use some the CDC data on COVID-19 deaths for this problem
+    ```{r}
+    library(RSocrata) 
+    covid19deaths = read.socrata("https://data.cdc.gov/api/odata/v4/r8kw-7aab") |> as_tibble() |> filter(group == "By Week")
+    ```
+   These data are tidy. Make a **wider** version of this table by making columns for each state and using the `covid_19_deaths` column as the values. You can discard all the other columns except `week_ending_date`, `covid_19_deaths`, and the columns for each state. You should have only one row for each date.
