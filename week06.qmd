@@ -1,0 +1,280 @@
+---
+title: 'Joins and Databases'
+author: "Jeremy Van Cleve"
+date: 01 10 2024
+format: 
+  html:
+    self-contained: true
+---
+
+# Outline for today
+
+- Putting data frames together: joins
+- Using `dplyr` to talk to databases
+
+# Joining data
+
+## Joining data can be a superpower
+
+Remember the CDC COVID-19 data on hospitalizations and deaths we used a few weeks back? Here it is:
+```{r}
+#| message: false
+library(tidyverse)
+library(RSocrata) 
+
+# Read in hospitalization and deaths
+us_deaths = read.socrata("https://data.cdc.gov/api/odata/v4/r8kw-7aab") |> as_tibble()
+us_hosps  = read.socrata("https://data.cdc.gov/api/odata/v4/aemt-mg7g") |> as_tibble()
+
+us_deaths_hosps = 
+  us_deaths |> 
+  rename(week_end_date = week_ending_date) |> # rename this column to match column in `us_hosps`
+  select(-c(`data_as_of`, `start_date`, `end_date`, group, year, month, mmwr_week, footnote)) |> 
+  inner_join( # join the two tables together
+    us_hosps |>
+      rename(state_abbrv = jurisdiction) |> # `us_hosps` has states as abbreviations so we'll need to add full state names
+      inner_join(tibble(state_abbrv = state.abb, state = state.name) |> 
+                  add_row(state_abbrv = c("USA", "DC", "PR"), state = c("United States", "District of Columbia", "Puerto Rico"))))
+```
+Looking at the `read.socrata` commands, you'll notice that we start with two separate files, one for hospitalization and one for deaths. It turns out that the CDC gives us these tables **separately**: 
+[hospitalizations](https://data.cdc.gov/Public-Health-Surveillance/Weekly-United-States-Hospitalization-Metrics-by-Ju/aemt-mg7g/about_data) and [deaths](https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Week-Ending-D/r8kw-7aab/about_data). Putting these data tables together requires "joining" them. Not only that, we have to do some extra work to even make the join work, which we accomplish with *another join*. By learning about joins, we'll not only be able to understand this example, we'll be able to combine data from all kinds of places.
+
+## Keys
+
+One *key* to understanding joins (pardon the pun 😜) is understanding "keys". Joining data tables is really about a common variable in two different tables; the two tables can be "joined" together by merging variables in both tables through common values of the variable common to both of them. These common variables are called **keys**. We can look for common variables in `us_deaths` and `us_hosps`:
+
+```{r}
+us_deaths
+us_hosps
+```
+We notice that the two data tables record their information for each week and for each state or jurisdiction. So each combination of these variables denotes a unique observation and hence the tables are `tidy`. Moreover, those two variables, `week_ending_date`/`week_end_date` and `state`/`jurisdiction`, are our keys that we can use to join together the tables. We can check that the combination of these variables works to uniquely identify each observation by looking to see if each combination occurs only once in the dataset:
+```{r}
+us_deaths |> 
+  count(week_ending_date, state) |>
+  filter(n > 1)
+```
+Ruh roh. It looks like `NA` and state coming up 55 times! Let's check out why by filtering those `NA` dates
+```{r}
+us_deaths |> filter(is.na(week_ending_date))
+```
+If we look at the `group` column, it says "By Month", so these rows must be capturing monthly totals. Are there other rows we should be worried about?
+```{r}
+us_deaths |> distinct(group)
+```
+Ah, yes. What if we keep "By Week", do all these have `week_ending_date`s?
+```{r}
+us_deaths |> 
+  filter(group == "By Week", is.na(week_ending_date))
+```
+They do! This means that `week_ending_date` only has values for the "By Week" rows in `us_deaths`. Now we can check `us_deaths` to see if it has unique combinations of week end date and state:
+```{r}
+us_hosps |> 
+  count(week_end_date, jurisdiction) |>
+  filter(n > 1)
+```
+Great, it does! That means both week ending date and state/jurisdiction in both the deaths and  hospitalizations tables should correspond to matching observations.
+
+If we want to join the death data and the hospitalization table, we would call `week_ending_date` and `state` the **primary keys**, which identify unique observations in the first table in the join, and `week_end_date` and `jurisdiction` the **foreign keys**, which are the keys that correspond to the primary keys in the second table in the join.
+
+## Basic joins
+
+There are two basic kinds of data table joins: joins that combine data from one table into another, which are called **mutating joins**, and joins that use one table to filter the rows of another table, which are called **filtering joins**. Mutating joins are usually done with the functions `left_join`, `inner_join`, `right_join`, and `full_join`, and filtering joins with `semi_join` and `anti_join`.
+
+### Mutating joins
+
+We'll start by examining `inner_join(x,y)`, which takes variables from table `y` and adds them to table `x` and keeps only the rows where values exist in both tables `x` and `y` (the name "inner" will make more sense when we talk about all kinds of mutating joins). We use `inner_join` in our CDC example to join the hospitalization and death data. To do the join, we need our keys so we need to look at the combinations of our key variables again for each table:
+```{r}
+us_deaths |>
+  distinct(week_ending_date, state) |>
+  arrange(state)
+
+us_hosps |>
+  distinct(week_end_date, jurisdiction) |>
+  arrange(jurisdiction)
+```
+Ruh roh again. The deaths `State` has the full state name and the hospitalizations `state` has the two letter state abbreviation. This means that R can't join the tables yet since it won't know which `state` in `us_deaths` goes with which `jurisdiction` in `us_hosps`. So, we'll need to convert one to the other. Lucky for us, R has some builtin data tables that help, `state.abb` and `state.name`, which we combine into a new data table along with abbreviations for Washington DC, Puerto Rico, and the United States.
+```{r}
+states = 
+  tibble(state_abbrv = state.abb, state = state.name) |> 
+  add_row(state_abbrv = c("USA", "DC", "PR"), 
+          state = c("United States", "District of Columbia", "Puerto Rico"))
+states
+```
+How can we combine the state names from `states` into `us_hosps`? We can this with a join! To see this, new states table with our `us_hosps` .
+```{r}
+us_hosps_w_states = 
+  us_hosps |>
+  rename(state_abbrv = jurisdiction) |>
+  inner_join(states) |>
+  arrange(state) |>
+  relocate(week_end_date, state_abbrv, state) # this moves these columns to the beginning of the data frame
+us_hosps_w_states
+```
+We can see that R told us when doing this join that it's joining `` with `by = join_by(state_abbrv)` ``. This actually means R tried to guess which key variables it should use to join the tables. It did this by look at columns in both tables and finding ones with identical names. This is called a **natural join**. In this specific case, the only column with the same name in both tables is `state_abbrv`, so that is the primary and foreign key that was used for the join. Also note that since this is a left join and `us_hosps` is the primary table, all of its rows are kept and we simply get the new `state_full` column added.
+
+Now we are ready to join the deaths and hospitalization tables together since we have full state names in both tables. We do this by telling `inner_join` which variables are the primary and foreign keys since they have different names in the two tables.
+```{r}
+us_deaths_hosps =
+us_deaths |>
+  inner_join(us_hosps_w_states, join_by(week_ending_date == week_end_date, state == state)) |>
+  select(-data_as_of, -start_date, -end_date, -group, -year, -month)
+us_deaths_hosps
+```
+
+Let's quickly compare how big this combined table is to the two original tables.
+```{r}
+nrow(us_deaths)
+nrow(us_hosps)
+nrow(us_deaths_hosps)
+```
+The table created with the `inner_join` has fewer rows than either of the original tables. This is because `inner join` only keeps rows in the output table where the combination of the key values exist in both of the tables in the join. A `left_join(x,y)` or `right_join(x,y)`, on the other hand, will keep all the rows in the table in the `x` ("left") or `y` ("right") tables, respectively. This however means that there are variables in the `y` table for the `left_join` and in the `x` table in the `right_join` that don't have values in the output table and so R puts `NA` values in those places. To see this, suppose we do a `left_join` and combine the `us_hosps` into the `us_deaths`. 
+```{r}
+us_deaths |>
+  left_join(us_hosps_w_states, join_by(week_ending_date == week_end_date, state == state)) |>
+  select(-data_as_of, -start_date, -end_date, -group, -year, -month)
+```
+If we look at the first rows of this table, we can see that many of the hospitalization variables are `NA`. This is because these dates, which are early 2020, don't exist in the `us_hosps` data, which only starts in August of 2020:
+```{r}
+us_hosps |> arrange(week_end_date)
+```
+In some cases, we may prefer the `left_join` here since we want our table to reflect the fact that deaths are being recorded by the CDC for early 2020 even though hospitalization numbers are not.
+
+### Mutating joins in theory
+
+A conceptual diagram of our `left_join` would look like this:
+![](assets/r4ds_joins_left.png){width=50%}\
+Rows are matched by their keys, which are the colored columns. Rows in the right table `y` whose keys don't exist in the left table `x` are left out. We get `NA`s in the rows of variables from the right table where the left table has a value but the right table doesn't. The complementary situation occurs for a right join:
+![](assets/r4ds_joins_right.png){width=50%}\
+An `inner_join(x,y)` only keeps rows that have values for the key variables in both tables,
+![](assets/r4ds_joins_inner.png){width=50%}\
+and a `full_join` keeps all rows or observations in both the left and right tables (or `x` and `y`),
+![](assets/r4ds_joins_full.png){width=50%}\
+We can represent these different join types with Venn diagrams too:
+![](assets/r4ds_joins_venn.png){width=50%}\
+
+### Filtering joins
+
+Filtering joins are handy for filtering tables when the conditions for the filter might be complex enough to be contained within another table. A `semi_join(x,y)` keeps the rows in `x` that match a row in `y` whereas `anti_join(x,y)` keeps the rows in `x` that don't have a match in `y`. For example, suppose we want to filter our `us_deaths_hosps` for a set of specific states. We could create a new tibble for this:
+```{r}
+filter_dt = tribble(
+  ~state, ~val,
+  "California", 1,
+  "Kentucky", 1,
+  "New York", 1,
+  "Texas", 1
+)
+```
+and then do the join:
+```{r}
+us_deaths_hosps |>
+  semi_join(filter_dt)
+```
+The `anti_join` works analogously; here, we can use it to note something about what happened when we gave `us_hosps` its full state name. 
+```{r}
+us_hosps |>
+  anti_join(states, join_by(jurisdiction == state_abbrv)) |>
+  distinct(jurisdiction)
+```
+The rows in this table are the ones that do not have a value for `state_abbrv` in the `states` table. These jurisdictions are US territories like Guam, US Virgin Islands, etc. Our previous use of `inner_join` tossed out these rows since they don't have a value in `state_abbrv`.
+
+### Filtering joins in theory
+
+A conceptual diagram of our `semin_join` would look like this
+![](assets/r4ds_joins_semi.png){width=50%}\
+where only the rows of `x` are kept that match the key in `y` and no columns of `y` are added. Likewise, for `anti_join` we get\
+![](assets/r4ds_joins_anti.png){width=50%}\
+where only the non-matching rows of `x` are retained.
+
+
+## Non-equi joins
+
+One key assumption we've made in the above joins is that the rows are retained in the joined data table by key columns that have equal values in rows in the left and right data tables. However, these values need not be equal; they could be greater than, less than, or satisfy another criterion. The `dplyr` package identifies four particularly useful types of non-equi joins:
+
+- Cross joins match every pair of rows (generates the Cartesian product of the two tables).
+- Inequality joins use <, <=, >, and >= instead of ==.
+- Rolling joins are similar to inequality joins but only find the closest match.
+- Overlap joins are a special type of inequality join designed to work with ranges.
+
+For more information, see <https://r4ds.hadley.nz/joins#sec-non-equi-joins>.
+
+# Databases
+
+Even though there is a lot of data in excel spreadsheets and `csv` files and similar tabular files, there might be even more data living in databases, which are organized collections of data accessible by a user through special software. Many database systems use a special language called Structured Query Language or SQL for accessing the data contained int he database. Lucky for us, there are R packages and tools that translate the data wrangling commands we've been learning into equivalent SQL commands, and we'll briefly discuss some of the features of these tools.
+
+There are a few important differences between databases and the typical data frame you used in R up until now:
+
+1. Databases are stored on disk and can be very very large whereas data tables are typically small enough to be stored entirely within the working memory or RAM of a computer. This means some kinds of datasets, such as the all the users of Facebook and the information about them, must be stored in databases.
+
+2. Databases often have an index for quickly accessing specific rows, which is important when the database is many gigabytes or terabytes in size. Data frames do not have or really need an index.
+
+3. Databases are often **row-oriented**, which means data is stored row-by-row instead of **column oriented** like data frames. This makes adding data faster but doing data wrangling slower.
+
+## Connecting to databases
+
+You need to use a database interface or DBI to connect to a database. These are specific to the kind of database, PostgreSQL, MySQL, etc but the R package `DBI` is helpful here and has many of the interfaces builtin. In order to experiment, we'll use a SQLite database of San Francisco bike share data from 2018 from <https://github.com/ropensci/bikedata>. The file, `bikedb.sqlite`, should be in the project template "BIO540-DWV" in the course space on Posit Cloud. You canconnect to the database using the code below.
+```{r}
+library(DBI)
+library(dbplyr)
+
+dbcon = dbConnect(RSQLite::SQLite(), "bikedb.sqlite")
+dbcon
+```
+
+Databases may have multiple tables. To see which tables are in this database, we do
+```{r}
+dbcon |> 
+  dbListTables()
+```
+Let's look at the `stations` table.
+```{r}
+dbcon |>
+  dbReadTable("stations") |>
+  as_tibble()
+```
+We can see this is just a list of locations of bike share stations.
+
+## `dbplyr`
+
+The package `dbplyr` let's us access the database as if we were using our normal `dplyr` commands but in the background SQL commands are sent to the database. Let's load the trips table.
+```{r}
+sftrips = dbcon |>
+  tbl("trips")
+sftrips
+```
+You can see that the table shows the number of columns but not the number of rows. This is because the table is loaded **lazily**, which means data aren't accessed until they must be. Since all we did was essentially ask for the beginning of the table, it didn't have to read the whole thing into memory. Suppose we wanted to collect all the bike trips that were taken on July 4th, which is a US holiday, and we wanted to see which station generated the longest trips. We could use our normal `dplyr` tools as follows:
+```{r}
+july4th = sftrips |> 
+  filter(start_time < "2018-07-05 00:00:00", start_time >= "2018-07-04 00:00:00") |>
+  group_by(start_station_id) |>
+  summarize(mean_duration = mean(trip_duration)) |>
+  arrange(desc(mean_duration)) |>
+  collect()
+july4th
+```
+The final command above, `collect`, collects all the data from the database so that we now just have a normal `tibble` and just some of the results from database. This can be useful since pulling from the database can be a little slower but only do this if the resulting table is small enough to store in RAM.
+
+We could go back to the `stations` table to get location information about the stations and then use a join to add that information here. 
+```{r}
+stations = dbcon |>
+  dbReadTable("stations") |>
+  as_tibble()
+
+july4th |>
+  left_join(stations, by = join_by(start_station_id == stn_id))
+```
+We can see that the station that generated the longest rides on July 4th is 47th St at San Pablo Ave station.
+
+Finally, we can see what the SQL code is to generate the same query that we execute with our `dplyr` code:
+```{r}
+sftrips |> 
+  filter(start_time < "2018-07-05 00:00:00", start_time >= "2018-07-04 00:00:00") |>
+  group_by(start_station_id) |>
+  summarize(mean_duration = mean(trip_duration)) |>
+  arrange(desc(mean_duration)) |>
+  show_query()
+```
+If you're interested more in SQL (and you don't have to be since you have `dbplyr`!), you can get some intro info in the "R for Data Science" book: <https://r4ds.hadley.nz/databases#sql>.
+
+# Lab ![](assets/beaker.png)
+
+Thursday...
