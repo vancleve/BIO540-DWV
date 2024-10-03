@@ -282,7 +282,7 @@ For some of these problems, we'll use data from the library `nycflights13`, whic
 library(nycflights13)
 ```
 
-1.  Find the day that has the worst departure delay.
+1.  Find the day that has the worst total departure delay (over all flights for that day).
 
 2.  Imagine you’ve found the top 10 most popular destinations using this code:
     ```{r}
