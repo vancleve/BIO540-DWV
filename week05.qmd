@@ -293,10 +293,6 @@ For these problems, use the functions introduced above from the `tidyverse` pack
 
 ### Problems
 
-For these problems, use the functions introduced above from the `tidyverse` packages like `dplyr` as much as possible.
-
-### Problems
-
 1.  Using the GWAS data, 
     ```{r}
     library(tidyverse)

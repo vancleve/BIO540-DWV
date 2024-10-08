@@ -293,7 +293,7 @@ as the semester progress.
 | 4 | 09/17 & 09/19 | Getting data into R data.frames via files and spreadsheets | [html](https://vancleve.github.io/BIO540-DWV/week04.html) |
 | 5 | 09/24 & 09/26 | Tidy Data | [html](https://vancleve.github.io/BIO540-DWV/week05.html) |
 | 6 | 10/01 & 11/03 | Joins and databases | [html](https://vancleve.github.io/BIO540-DWV/week06.html) |
-| 7 | 10/08 & 10/10 | Text manipulation and regular expressions |  |
+| 7 | 10/08 & 10/10 | Text manipulation and regular expressions | [html](https://vancleve.github.io/BIO540-DWV/week07.html) |
 | 8 | 10/15 & 10/17 | Introduction to plotting and ggplot2 |  |
 | 9 | 10/22 & 10/24 | Plot types in ggplot2 |  |
 |  | 10/29 | **Fall Break** |  |
