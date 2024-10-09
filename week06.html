@@ -3175,7 +3175,7 @@ vertical-align: -.125em;
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>us_hosps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12,312 × 64
+<pre><code># A tibble: 12,369 × 64
    week_end_date       jurisdiction weekly_actual_days_reporting_any_data
    &lt;dttm&gt;              &lt;chr&gt;                                        &lt;int&gt;
  1 2020-08-08 00:00:00 AZ                                             458
@@ -3188,7 +3188,7 @@ vertical-align: -.125em;
  8 2020-09-26 00:00:00 AZ                                             460
  9 2020-10-03 00:00:00 AZ                                             447
 10 2020-10-10 00:00:00 AZ                                             463
-# ℹ 12,302 more rows
+# ℹ 12,359 more rows
 # ℹ 61 more variables: weekly_percent_days_reporting_any_data &lt;dbl&gt;,
 #   num_hospitals_previous_day_admission_adult_covid_confirmed &lt;int&gt;,
 #   num_hospitals_previous_day_admission_pediatric_covid_confirmed &lt;int&gt;,
@@ -3315,7 +3315,7 @@ vertical-align: -.125em;
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(week_end_date, jurisdiction) <span class="sc">|&gt;</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(jurisdiction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12,312 × 2
+<pre><code># A tibble: 12,369 × 2
    week_end_date       jurisdiction
    &lt;dttm&gt;              &lt;chr&gt;       
  1 2020-08-08 00:00:00 AK          
@@ -3328,7 +3328,7 @@ vertical-align: -.125em;
  8 2020-09-26 00:00:00 AK          
  9 2020-10-03 00:00:00 AK          
 10 2020-10-10 00:00:00 AK          
-# ℹ 12,302 more rows</code></pre>
+# ℹ 12,359 more rows</code></pre>
 </div>
 </div>
 <p>Ruh roh again. The deaths <code>State</code> has the full state name and the hospitalizations <code>state</code> has the two letter state abbreviation. This means that R can’t join the tables yet since it won’t know which <code>state</code> in <code>us_deaths</code> goes with which <code>jurisdiction</code> in <code>us_hosps</code>. So, we’ll need to convert one to the other. Lucky for us, R has some builtin data tables that help, <code>state.abb</code> and <code>state.name</code>, which we combine into a new data table along with abbreviations for Washington DC, Puerto Rico, and the United States.</p>
@@ -3368,7 +3368,7 @@ vertical-align: -.125em;
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>us_hosps_w_states</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,448 × 65
+<pre><code># A tibble: 11,501 × 65
    week_end_date       state_abbrv state   weekly_actual_days_reporting_any_data
    &lt;dttm&gt;              &lt;chr&gt;       &lt;chr&gt;                                   &lt;int&gt;
  1 2020-08-08 00:00:00 AL          Alabama                                   629
@@ -3381,7 +3381,7 @@ vertical-align: -.125em;
  8 2020-09-26 00:00:00 AL          Alabama                                   635
  9 2020-10-03 00:00:00 AL          Alabama                                   641
 10 2020-10-10 00:00:00 AL          Alabama                                   637
-# ℹ 11,438 more rows
+# ℹ 11,491 more rows
 # ℹ 61 more variables: weekly_percent_days_reporting_any_data &lt;dbl&gt;,
 #   num_hospitals_previous_day_admission_adult_covid_confirmed &lt;int&gt;,
 #   num_hospitals_previous_day_admission_pediatric_covid_confirmed &lt;int&gt;,
@@ -3399,7 +3399,7 @@ vertical-align: -.125em;
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data_as_of, <span class="sc">-</span>start_date, <span class="sc">-</span>end_date, <span class="sc">-</span>group, <span class="sc">-</span>year, <span class="sc">-</span>month)</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>us_deaths_hosps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,448 × 74
+<pre><code># A tibble: 11,501 × 74
    mmwr_week week_ending_date    state         covid_19_deaths total_deaths
        &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;                   &lt;int&gt;        &lt;int&gt;
  1        32 2020-08-08 00:00:00 United States            7870        63719
@@ -3412,7 +3412,7 @@ vertical-align: -.125em;
  8        39 2020-09-26 00:00:00 United States            4305        60613
  9        40 2020-10-03 00:00:00 United States            4246        59802
 10        41 2020-10-10 00:00:00 United States            4823        61779
-# ℹ 11,438 more rows
+# ℹ 11,491 more rows
 # ℹ 69 more variables: percent_of_expected_deaths &lt;dbl&gt;,
 #   pneumonia_deaths &lt;int&gt;, pneumonia_and_covid_19_deaths &lt;int&gt;,
 #   influenza_deaths &lt;int&gt;, pneumonia_influenza_or_covid_19_deaths &lt;int&gt;,
@@ -3429,11 +3429,11 @@ vertical-align: -.125em;
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(us_hosps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12312</code></pre>
+<pre><code>[1] 12369</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(us_deaths_hosps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 11448</code></pre>
+<pre><code>[1] 11501</code></pre>
 </div>
 </div>
 <p>The table created with the <code>inner_join</code> has fewer rows than either of the original tables. This is because <code>inner join</code> only keeps rows in the output table where the combination of the key values exist in both of the tables in the join. A <code>left_join(x,y)</code> or <code>right_join(x,y)</code>, on the other hand, will keep all the rows in the table in the <code>x</code> (“left”) or <code>y</code> (“right”) tables, respectively. This however means that there are variables in the <code>y</code> table for the <code>left_join</code> and in the <code>x</code> table in the <code>right_join</code> that don’t have values in the output table and so R puts <code>NA</code> values in those places. To see this, suppose we do a <code>left_join</code> and combine the <code>us_hosps</code> into the <code>us_deaths</code>.</p>
@@ -3468,7 +3468,7 @@ vertical-align: -.125em;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>us_hosps <span class="sc">|&gt;</span> <span class="fu">arrange</span>(week_end_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12,312 × 64
+<pre><code># A tibble: 12,369 × 64
    week_end_date       jurisdiction weekly_actual_days_reporting_any_data
    &lt;dttm&gt;              &lt;chr&gt;                                        &lt;int&gt;
  1 2020-08-08 00:00:00 AZ                                             458
@@ -3481,7 +3481,7 @@ vertical-align: -.125em;
  8 2020-08-08 00:00:00 ME                                             177
  9 2020-08-08 00:00:00 ND                                             264
 10 2020-08-08 00:00:00 WA                                             575
-# ℹ 12,302 more rows
+# ℹ 12,359 more rows
 # ℹ 61 more variables: weekly_percent_days_reporting_any_data &lt;dbl&gt;,
 #   num_hospitals_previous_day_admission_adult_covid_confirmed &lt;int&gt;,
 #   num_hospitals_previous_day_admission_pediatric_covid_confirmed &lt;int&gt;,
@@ -3521,7 +3521,7 @@ We can represent these different join types with Venn diagrams too: <img role="i
 <pre><code>Joining with `by = join_by(state)`</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 864 × 74
+<pre><code># A tibble: 868 × 74
    mmwr_week week_ending_date    state      covid_19_deaths total_deaths
        &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;                &lt;int&gt;        &lt;int&gt;
  1        32 2020-08-08 00:00:00 California             998         6309
@@ -3534,7 +3534,7 @@ We can represent these different join types with Venn diagrams too: <img role="i
  8        39 2020-09-26 00:00:00 California             453         5563
  9        40 2020-10-03 00:00:00 California             346         5671
 10        41 2020-10-10 00:00:00 California             375         5568
-# ℹ 854 more rows
+# ℹ 858 more rows
 # ℹ 69 more variables: percent_of_expected_deaths &lt;dbl&gt;,
 #   pneumonia_deaths &lt;int&gt;, pneumonia_and_covid_19_deaths &lt;int&gt;,
 #   influenza_deaths &lt;int&gt;, pneumonia_influenza_or_covid_19_deaths &lt;int&gt;,
@@ -3770,7 +3770,7 @@ ORDER BY `mean_duration` DESC</code></pre>
 </div>
 <p>How can you find all flights to those destinations?</p></li>
 <li><p>Add the latitude and the longitude of the origin and destination airport to flights</p></li>
-<li><p>What do the tail numbers that don’t have a matching record in planes have in common? (Hint: one variable explains ~90% of the problems.)</p></li>
+<li><p>What do the tail numbers in <code>flights</code> that don’t have a matching record in planes have in common? (Hint: one variable explains ~90% of the problems.)</p></li>
 <li><p>Use the <code>bikedb.sqlite</code> data and find the station with the most number of trips in the database. Use a join to find out where that station is located.</p></li>
 </ol>
 <ul>
