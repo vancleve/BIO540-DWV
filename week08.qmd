@@ -265,17 +265,17 @@ We've used a histogram now to count the fraction of times each expression value 
     ```
     The kind of demographic information for each row of the table is in the `group` column. You should see what the distinct values of `group` are and what the values are for `subgroup1` and `subgroup2` to understand better the demographic category of each row. Be careful to filter using an appropriate `group` value for each part of the problem below.
     
-    - Make a line plot of the covid death rate in `crude_rate` vs the date for the years 2020-2021.\
+    - Make a point plot of the covid death rate in `crude_rate` vs the date for the years 2020-2021.\
       Use `facet_wrap` to make this a set of plots for each **age group** in the data.\
       Hint: use the `year` function to more easily filter the rows.\
       Hint: filter by `group` to get the right subset of rows.
-    - Make a line plot of the covid death rate in `crude_rate` vs the date for 2020-2021.\
+    - Make a point plot of the covid death rate in `crude_rate` vs the date for 2020-2021.\
       Use `facet_wrap` to make a set of plots for each **race/ethnicity** value in the data.\
       Think carefully about what might **not** be included in these data that might explain any differences you see between these groups.
-    - Make a line plot of the covid death rate in `crude_rate` vs the date for 2020-2021.\
+    - Make a point plot of the covid death rate in `crude_rate` vs the date for 2020-2021.\
       Use `facet_grid` to make a grid of plots for each combination of **age** and **race/ethnicity** value.\
       Hint: filter by `group` first to get the right subset of data (there will be two different groups that yield the same data).
-    - +3 points: make a version of the `facet_grid` plot above where there is a separate colored line for each `jurisdiction_residence`.\
+    - +3 points: make a version of the `facet_grid` plot above where there is a separate colored points for each `jurisdiction_residence`.\
       See here for what states belong to which region: <https://www.hhs.gov/about/agencies/iea/regional-offices/index.html>
     
     

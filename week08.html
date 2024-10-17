@@ -3578,17 +3578,17 @@ It has mortality rates per 100k people in the <code>crude_rate</code> column and
 </div>
 <p>The kind of demographic information for each row of the table is in the <code>group</code> column. You should see what the distinct values of <code>group</code> are and what the values are for <code>subgroup1</code> and <code>subgroup2</code> to understand better the demographic category of each row. Be careful to filter using an appropriate <code>group</code> value for each part of the problem below.</p>
 <ul>
-<li>Make a line plot of the covid death rate in <code>crude_rate</code> vs the date for the years 2020-2021.<br>
+<li>Make a point plot of the covid death rate in <code>crude_rate</code> vs the date for the years 2020-2021.<br>
 Use <code>facet_wrap</code> to make this a set of plots for each <strong>age group</strong> in the data.<br>
 Hint: use the <code>year</code> function to more easily filter the rows.<br>
 Hint: filter by <code>group</code> to get the right subset of rows.</li>
-<li>Make a line plot of the covid death rate in <code>crude_rate</code> vs the date for 2020-2021.<br>
+<li>Make a point plot of the covid death rate in <code>crude_rate</code> vs the date for 2020-2021.<br>
 Use <code>facet_wrap</code> to make a set of plots for each <strong>race/ethnicity</strong> value in the data.<br>
 Think carefully about what might <strong>not</strong> be included in these data that might explain any differences you see between these groups.</li>
-<li>Make a line plot of the covid death rate in <code>crude_rate</code> vs the date for 2020-2021.<br>
+<li>Make a point plot of the covid death rate in <code>crude_rate</code> vs the date for 2020-2021.<br>
 Use <code>facet_grid</code> to make a grid of plots for each combination of <strong>age</strong> and <strong>race/ethnicity</strong> value.<br>
 Hint: filter by <code>group</code> first to get the right subset of data (there will be two different groups that yield the same data).</li>
-<li>+3 points: make a version of the <code>facet_grid</code> plot above where there is a separate colored line for each <code>jurisdiction_residence</code>.<br>
+<li>+3 points: make a version of the <code>facet_grid</code> plot above where there is a separate colored points for each <code>jurisdiction_residence</code>.<br>
 See here for what states belong to which region: <a href="https://www.hhs.gov/about/agencies/iea/regional-offices/index.html" class="uri">https://www.hhs.gov/about/agencies/iea/regional-offices/index.html</a></li>
 </ul></li>
 </ol>
