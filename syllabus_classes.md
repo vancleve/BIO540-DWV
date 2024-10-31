@@ -15,7 +15,7 @@ as the semester progress.
 | 7    | 10/08 & 10/10 | Text manipulation and regular expressions                  | [html](https://vancleve.github.io/BIO540-DWV/week07.html) |
 | 8    | 10/15 & 10/17 | Introduction to plotting and ggplot2                       | [html](https://vancleve.github.io/BIO540-DWV/week08.html) |
 | 9    | 10/22 & 10/24 | Plot types in ggplot2                                      | [html](https://vancleve.github.io/BIO540-DWV/week09.html) |
-|      | 10/29         | **Fall Break**                                             |                                                           |
+|      | 10/29         | **Fall Break**                                             | [html](https://vancleve.github.io/BIO540-DWV/week10.html) |
 | 10   | 10/31         | Principles of displaying data & how to modify plots        |                                                           |
 |      | 11/05         | **Election Day**                                           |                                                           |
 |      | 11/07         | Principles of displaying data & how to modify plots        |                                                           |
