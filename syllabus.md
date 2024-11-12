@@ -286,7 +286,7 @@ as the semester progress.
 | 10   | 10/31         | Principles of displaying data & how to modify plots        | [html](https://vancleve.github.io/BIO540-DWV/week10.html) |
 |      | 11/05         | **Election Day**                                           |                                                           |
 |      | 11/07         | Principles of displaying data & how to modify plots        |                                                           |
-| 11   | 11/12 & 11/14 | Colors and heat maps                                       |                                                           |
+| 11   | 11/12 & 11/14 | Colors and heat maps                                       | [html](https://vancleve.github.io/BIO540-DWV/week11.html) |
 | 12   | 11/19         | Visualizing/analyzing lots of data                         |                                                           |
 |      | 11/21         | Research data management (UK Data Librarian Isaac Wink)    |                                                           |
 | 13   | 11/26         | Networks                                                   |                                                           |
