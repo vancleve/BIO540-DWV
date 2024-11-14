@@ -346,4 +346,47 @@ One word of warning here is that saving a heat map as a ".pdf" may still result 
 
 ### Problems
 
-Thursday...
+1.  Create a heat map of the Babak et al. imprinting data:
+    ```{r}
+    #| eval: false
+    imprint = read_excel("babak-etal-2015_imprinted-mouse.xlsx", na = "NaN")
+    ```
+    - Wrangle the data first into a "tidy" format (genes, tissue, and expression as separate columns).
+    - Use a perceptually uniform color map.
+    - Resize the figure so the tick labels are readable.
+    - Add appropriate plot title and axes labels.
+    - Save the figure as ".pdf" and **include the .pdf** in the **.zip** that you submit.
+    
+2.  Load the GWAS data using the commands below:
+    ```{r}
+    #| eval: false
+    gwas = read_tsv("gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv", na=c("NA", "NR"), col_types = cols(CHR_POS = col_number()))
+    gwas = gwas %>% mutate(risk_allele_freq = parse_double(str_extract(gwas$`RISK ALLELE FREQUENCY`, "0\\.\\d+")))
+    ```
+    - Create a 2D histogram (use the `geom_bin2d`, `geom_hex`, or a similar function) that plots `RISK ALLELE FREQUENCY` on the x-axis and `PVALUE_MLOG` on the y-axis.
+    - Filter to keep "Height" and the three cancer traits in the table and use `facet_wrap` to make a plot for each `DISEASE/TRAIT` (four plots in total).
+    - Filter for `PVALUE_MLOG` less than 15.
+    - Use a perceptually uniform color map.
+    - Add appropriate plot title and axes labels.
+    - Save the figure as ".pdf" and **include the .pdf** in the **.zip** that you submit.
+    - What can you say about the difference between the allele frequency of significant SNPs for cancer compared to height?
+
+3.  Use the bike share ride data from San Francisco for the month of July using the commands below ():
+    ```{r}
+    #| eval: false
+    library(DBI)
+    library(dbplyr)
+
+    dbcon = dbConnect(RSQLite::SQLite(), "bikedb.sqlite")
+    sftrips = dbcon |>
+      tbl("trips") |>
+      filter(start_time >= "2018-07-01 00:00:00", start_time <= "2018-07-31 11:59:59") |>
+      collect()
+    ```
+    - The trip duration is in seconds. Filter for durations less than or equal to one hour.
+    - Plot a heatmap of trip duration versus the hour of the day for the start of the ride (hint: convert `start_time` to a date and use the `hour` function).
+    - Use the `stat_density_2d` function so that unknown values are imputed with a KDE.
+    - Use a perceptually uniform color map.
+    - Add appropriate plot title and axes labels.
+    - Save the figure as ".pdf" and **include the .pdf** in the **.zip** that you submit.
+    - What do you notice about the pattern of trip duration vs. hour of day?
