@@ -206,7 +206,7 @@ These have some advantages in terms of their visual appeal, but they should be u
     - Color the points according to `year`. Set the shape of the point (square, circle, etc) according to `continent`.
     - What patterns do you observe if any?
 
-2.  For this question, we will use genetic data from a few European populations gathered as part of the CEPH-Human Genome Diversity Panel. The file can be loaded using the code below. The `ID` column is an identifying string for the individual, the `Group` column gives the individual's geographic ancestry, and the remaining columns are SNPs.
+2.  For this question, we will use genetic data from a few European populations gathered as part of the CEPH-Human Genome Diversity Panel. A little more information on the data can be found here: <https://github.com/NovembreLab/HGDP_PopStruct_Exercise/blob/master/PopGenWorkshop.pdf>. The file can be loaded using the code below. The `ID` column is an identifying string for the individual, the `Group` column gives the individual's geographic ancestry, and the remaining columns are SNPs.
     ```{r}
     hgdp = read_csv("H938_Euro.LDprune.csv")
     ```
