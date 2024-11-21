@@ -198,4 +198,27 @@ These have some advantages in terms of their visual appeal, but they should be u
 
 # Lab ![](assets/beaker.png)
 
-Thursday
+### Problems
+
+1.  Using the `gapminder` data:
+    - Perform a principal components analysis using the variables `lifeExp`, `year`, `pop`, and `gdpPercap`. 
+    - Plot all the points on a scatter plot with the the x- and y-axis corresponding to the first two principal components (PC1 and PC2). 
+    - Color the points according to `year`. Set the shape of the point (square, circle, etc) according to `continent`.
+    - What patterns do you observe if any?
+
+2.  For this question, we will use genetic data from a few European populations gathered as part of the CEPH-Human Genome Diversity Panel. The file can be loaded using the code below. The `ID` column is an identifying string for the individual, the `Group` column gives the individual's geographic ancestry, and the remaining columns are SNPs.
+    ```{r}
+    hgdp = read_csv("H938_Euro.LDprune.csv")
+    ```
+    - Perform a PCA on the SNPs.
+    - Plot all the individuals using the first two principle components.
+    - Color the individuals according to `Group`.
+    - Which PC corresponds to a more north-south axis and which one to a more east-west axis?
+    
+3.  The scatter plot grid we created for the blue jay data had many extraneous plots (the diagonal plots and two copies of each plot, x vs y and then y vs x). There were only three scatter plots that we really needed from that 3x3 grid. Using `facet_wrap`, we can plot only these three plots. 
+    - Begin with the `bg` data table that we used that contains the `var_x`, `var_y`, `val_x`, and `val_y` columns.
+    - Create one new column that contains the x,y variable combo for each scatter plot.
+    - Use `filter` to get only the rows that correspond to the three variable combinations you need.
+    - Create scatter plots using `facet_wrap` on the new column you created.
+    - +2 points: use `labeller` in `facet_wrap` to add the correct x and y axis labels for each plot.
+    
