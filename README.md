@@ -1,3 +1,6 @@
+# BIO 540 – Data Wrangling and Visualization
+
+
 ![](assets/covid-19_KY-TN_deaths.jpg) 
 
 # Course information
@@ -14,7 +17,7 @@
 | **Class Time** | Tuesday & Thursday 11-12:15pm |
 | **Class Location** | JSB 347 |
 | **Website** | <https://github.com/vancleve/BIO540-DWV> (github website) |
-|  | <https://uk.instructure.com/courses/2122860> (Canvas website) |
+|  | <https://uk.instructure.com/courses/2154439> (Canvas website) |
 
 # Course description
 
@@ -112,7 +115,7 @@ The assessment portion of the course has three components.
     these should be provided along with the `Quarto` markdown file (with
     last name `qmd`) by adding all the files to a single compressed
     `zip` file. The `qmd` or `zip` file should then be uploaded to the
-    [Canvas course website](https://uk.instructure.com/000000).
+    [Canvas course website](https://uk.instructure.com/courses/2154439).
 
 3.  **Data visualization project and presentation**. The last two weeks
     will be devoted to 8-10 minute presentations of **five** figures
@@ -198,13 +201,45 @@ the course grade for the data visualization project.
 
 # Getting help (i.e., uh, how do I…?)
 
+# Generative AI and Large Language Models
+
+Large language models (LLMs) like ChatGPT, Claude, Gemini, and DeepSeek
+are quickly becoming a key tool for many software developers and
+scientific coders. In fact, the versions of these models that work well
+for writing computer code may be the best use case for LLMs to date.
+
+HOWEVER. Like any tool, the ability of the tool to perform a task
+depends crucially on the user of the tool. For senior software engineers
+and experienced scientific coders, a LLM coding assistant can
+successfully generate well-written and useful code. HOWEVER, this
+success is due to the ability of the user to provide precise and
+high-level commands to the LLM and to recognize when the LLM makes a
+mistake and guide the LLM to correct the mistake. Thus, just as before
+the advent of LLM tools, developing a broad understanding of data
+wrangling concepts and how to accomplish those tasks in R is not only
+useful but essential to successfully accomplishing tasks whether or not
+one uses a LLM.
+
+In this course, we will build up those basic data wrangling and R coding
+skills. We may consult with a LLM just was we would consult a search
+engine to access internet resources such as the R documentation in order
+to understand how to accomplish a specific task. We will not use LLMs to
+write any significant amount of code for us.
+
+Thus, the rule for using LLMs or generative AI in this course is that
+such resources **may be used to guide and improve your understanding**
+of the data wrangling concepts and coding tools, but **you are 100%
+responsible for the code you submit for labs and your project**; **the
+code must accomplish the intended task and you must be able to explain
+how the code works** in order to receive full credit.
+
 ## Classmates and instructor
 
 1.  **Please start a discussion** on the [Canvas
-    website](https://uk.instructure.com/000000). This will allow
-    everyone to benefit from the questions and answers posed. I will
-    monitor this discussion and post replies as necessary. Please also
-    post your own replies too!
+    website](https://uk.instructure.com/courses/2154439). This will
+    allow everyone to benefit from the questions and answers posed. I
+    will monitor this discussion and post replies as necessary. Please
+    also post your own replies too!
 2.  Instructor office hours.
 
 ## Internet
@@ -217,7 +252,10 @@ the course grade for the data visualization project.
     same family as Stack Overflow. Focused on conceptual and procedural
     questions in statistics (less on implementation in R or other
     languages).
-3.  Google. The oldie but the goodie.
+3.  Google. The oldie.
+4.  LLMs. The newie. You can consult these for help, but you are
+    responsible for whatever code you produce; it should accomplish the
+    intended task and you must be able to explain how it works.
 
 # Useful resources
 
@@ -244,8 +282,8 @@ book is for you.
 - Wickham, Hadley. 2019. Advanced R. <https://adv-r.hadley.nz/>
 
 The following are some popular books on R. PDFs are available for “check
-out” on the [Canvas website](https://uk.instructure.com/000000) under
-“Modules: References”.
+out” on the [Canvas website](https://uk.instructure.com/courses/2154439)
+under “Modules: References”.
 
 - Chang, Winston. 2013. R Graphics Cookbook. O’Reilly
 - Crawley, Michael J.. 2005. Statistics: An Introduction using R. Wiley
@@ -287,27 +325,24 @@ as the semester progress.
 
 | Week | Class Dates | Topic | Link |
 |----|----|----|----|
-| 1 | 08/27 & 08/29 | Intro to the course and markdown, and Quarto | [html](https://vancleve.github.io/BIO540-DWV/week01.html) |
-| 2 | 09/03 & 09/05 | Intro to R: data types, flow control, and functions | [html](https://vancleve.github.io/BIO540-DWV/week02.html) |
-| 3 | 09/10 & 09/12 | Vectors, slicing, and map(ping) | [html](https://vancleve.github.io/BIO540-DWV/week03.html) |
-| 4 | 09/17 & 09/19 | Getting data into R data.frames via files and spreadsheets | [html](https://vancleve.github.io/BIO540-DWV/week04.html) |
-| 5 | 09/24 & 09/26 | Tidy Data | [html](https://vancleve.github.io/BIO540-DWV/week05.html) |
-| 6 | 10/01 & 11/03 | Joins and databases | [html](https://vancleve.github.io/BIO540-DWV/week06.html) |
-| 7 | 10/08 & 10/10 | Text manipulation and regular expressions | [html](https://vancleve.github.io/BIO540-DWV/week07.html) |
-| 8 | 10/15 & 10/17 | Introduction to plotting and ggplot2 | [html](https://vancleve.github.io/BIO540-DWV/week08.html) |
-| 9 | 10/22 & 10/24 | Plot types in ggplot2 | [html](https://vancleve.github.io/BIO540-DWV/week09.html) |
-|  | 10/29 | **Fall Break** |  |
-| 10 | 10/31 | Principles of displaying data & how to modify plots | [html](https://vancleve.github.io/BIO540-DWV/week10.html) |
-|  | 11/05 | **Election Day** |  |
-|  | 11/07 | Principles of displaying data & how to modify plots |  |
-| 11 | 11/12 & 11/14 | Colors and heat maps | [html](https://vancleve.github.io/BIO540-DWV/week11.html) |
-| 12 | 11/19 | Visualizing/analyzing lots of data | [html](https://vancleve.github.io/BIO540-DWV/week12.html) |
-|  | 11/21 | Research data management (UK Data Librarian Isaac Wink) |  |
-| 13 | 11/26 | Networks |  |
-|  | 11/28 | **Thanksgiving Break** |  |
-| 14 | 12/03 | Project presentations |  |
-|  | 12/05 | Project presentations |  |
-|  | 12/10 | **No class - JVC at Conference** |  |
+| 1 | 01/13 & 01/15 | Intro to the course and markdown, and Quarto | [html](https://vancleve.github.io/BIO540-DWV/week01.html) |
+| 2 | 01/20 & 01/22 | Intro to R: data types, flow control, and functions |  |
+| 3 | 01/27 & 01/29 | Vectors, slicing, and map(ping) |  |
+| 4 | 02/03 & 02/05 | Getting data into R data.frames via files and spreadsheets |  |
+| 5 | 02/10 & 02/12 | Tidy Data |  |
+| 6 | 02/17 & 02/19 | Joins and databases |  |
+| 7 | 02/24 & 02/26 | Text manipulation and regular expressions |  |
+| 8 | 03/03 & 03/05 | Introduction to plotting and ggplot2 |  |
+| 9 | 03/10 & 03/12 | Plot types in ggplot2 |  |
+|  | 03/17 & 03/19 | **Spring Break** |  |
+| 10 | 03/24 & 03/26 | Principles of displaying data & how to modify plots |  |
+| 11 | 03/31 & 04/02 | Colors and heat maps |  |
+| 12 | 04/07 & 04/09 | Visualizing/analyzing lots of data |  |
+| 13 | 04/14 | Networks |  |
+|  | 04/16 | **No class: JVC traveling** |  |
+| 14 | 04/21 | Interactive plots |  |
+|  | 04/23 | Project presentations |  |
+| 15 | 04/28 | Project presentations |  |
 
 # Course policies
 

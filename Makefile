@@ -1,21 +1,21 @@
-PANDOC := pandoc
-MD_FILES := syllabus_main.md syllabus_classes.md syllabus_policies.md
+QUARTO := quarto
+MD_FILES := syllabus_main.qmd syllabus_classes.qmd syllabus_policies.qmd
 
-all: syllabus.md
+all: syllabus.qmd
 
-md: syllabus.md
-syllabus.md: syllabus_main.md syllabus_classes.md syllabus_policies.md
-	cat syllabus_main.md syllabus_classes.md syllabus_policies.md > syllabus.md
-	$(PANDOC) syllabus.md -t gfm -o README.md
+md: syllabus.qmd
+syllabus.qmd: syllabus_main.qmd syllabus_classes.qmd syllabus_policies.qmd
+	cat syllabus_main.qmd syllabus_classes.qmd syllabus_policies.qmd > syllabus.qmd
+	$(QUARTO) render syllabus.qmd -t gfm -o README.md
 
 html: syllabus.html
-syllabus.html: syllabus.md
-	$(PANDOC) syllabus.md -s -o syllabus.html
+syllabus.html: syllabus.qmd
+	$(QUARTO) render syllabus.qmd --to html
 
 tex: syllabus.tex
-syllabus.tex: syllabus.md
-	$(PANDOC) syllabus.md --pdf-engine=xelatex -V geometry:"margin=1in" -V fontsize:"10pt" -s -o syllabus.tex
+syllabus.tex: syllabus.qmd
+	$(QUARTO) render syllabus.qmd --to tex --pdf-engine=xelatex -V geometry:"margin=1in" -V fontsize:"10pt"
 
 pdf: syllabus.pdf
-syllabus.pdf: syllabus.md
-	$(PANDOC) syllabus.md -d main -o syllabus.pdf
+syllabus.pdf: syllabus.qmd
+	$(QUARTO) render syllabus.qmd --to pdf --pdf-engine=xelatex -V geometry:"margin=1in" -V fontsize:"10pt"
