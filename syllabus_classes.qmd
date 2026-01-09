@@ -1,0 +1,27 @@
+
+# Topic schedule
+
+The following is the preliminary schedule of topics and will be adjusted
+as the semester progress.
+
+| Week | Class Dates   | Topic                                                      | Link                                                      |
+|------|---------------|------------------------------------------------------------|-----------------------------------------------------------|
+| 1    | 01/13 & 01/15 | Intro to the course and markdown, and Quarto               | [html](https://vancleve.github.io/BIO540-DWV/week01.html) |
+| 2    | 01/20 & 01/22 | Intro to R: data types, flow control, and functions        |                                                           |
+| 3    | 01/27 & 01/29 | Vectors, slicing, and map(ping)                            |                                                           |
+| 4    | 02/03 & 02/05 | Getting data into R data.frames via files and spreadsheets |                                                           |
+| 5    | 02/10 & 02/12 | Tidy Data                                                  |                                                           |
+| 6    | 02/17 & 02/19 | Joins and databases                                        |                                                           |
+| 7    | 02/24 & 02/26 | Text manipulation and regular expressions                  |                                                           |
+| 8    | 03/03 & 03/05 | Introduction to plotting and ggplot2                       |                                                           |
+| 9    | 03/10 & 03/12 | Plot types in ggplot2                                      |                                                           |
+|      | 03/17 & 03/19 | **Spring Break**                                           |                                                           |
+| 10   | 03/24 & 03/26 | Principles of displaying data & how to modify plots        |                                                           |
+| 11   | 03/31 & 04/02 | Colors and heat maps                                       |                                                           |
+| 12   | 04/07 & 04/09 | Visualizing/analyzing lots of data                         |                                                           |
+| 13   | 04/14         | Networks                                                   |                                                           |
+|      | 04/16         | **No class: JVC traveling**                                |                                                           |
+| 14   | 04/21         | Interactive plots                                          |                                                           |
+|      | 04/23         | Project presentations                                      |                                                           |
+| 15   | 04/28         | Project presentations                                      |                                                           |
+

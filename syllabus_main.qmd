@@ -6,7 +6,7 @@ colorlinks: true
 ![](assets/covid-19_KY-TN_deaths.jpg)\	
 
 [github site]: https://github.com/vancleve/BIO540-DWV
-[canvas site]: https://uk.instructure.com/000000
+[canvas site]: https://uk.instructure.com/courses/2154439
 
 # Course information
 
@@ -22,7 +22,7 @@ colorlinks: true
 | **Class Time**     | Tuesday & Thursday 11-12:15pm                                 |
 | **Class Location** | JSB 347                                                       |
 | **Website**        | <https://github.com/vancleve/BIO540-DWV> (github website)     |
-|                    | <https://uk.instructure.com/courses/2122860> (Canvas website) |
+|                    | <https://uk.instructure.com/courses/2154439> (Canvas website) |
 
 # Course description
 
@@ -190,12 +190,42 @@ for the data visualization project.
 
 # Getting help (i.e., uh, how do I…?)
 
+# Generative AI and Large Language Models
+
+Large language models (LLMs) like ChatGPT, Claude, Gemini, and DeepSeek are
+quickly becoming a key tool for many software developers and scientific coders.
+In fact, the versions of these models that work well for writing computer code
+may be the best use case for LLMs to date.
+
+HOWEVER. Like any tool, the ability of the tool to perform a task depends
+crucially on the user of the tool. For senior software engineers and experienced
+scientific coders, a LLM coding assistant can successfully generate well-written
+and useful code. HOWEVER, this success is due to the ability of the user to
+provide precise and high-level commands to the LLM and to recognize when the LLM
+makes a mistake and guide the LLM to correct the mistake. Thus, just as before
+the advent of LLM tools, developing a broad understanding of data wrangling
+concepts and how to accomplish those tasks in R is not only useful but essential
+to successfully accomplishing tasks whether or not one uses a LLM.
+
+In this course, we will build up those basic data wrangling and R coding skills.
+We may consult with a LLM just was we would consult a search engine to access
+internet resources such as the R documentation in order to understand how to
+accomplish a specific task. We will not use LLMs to write any significant amount
+of code for us.
+
+Thus, the rule for using LLMs or generative AI in this course is that such
+resources **may be used to guide and improve your understanding** of the data
+wrangling concepts and coding tools, but **you are 100% responsible for the code
+you submit for labs and your project**; **the code must accomplish the intended
+task and you must be able to explain how the code works** in order to receive
+full credit.
+
 ## Classmates and instructor
 
-1.  **Please start a discussion** on the [Canvas website][canvas site]. This will allow
-    everyone to benefit from the questions and answers posed. I will monitor
-    this discussion and post replies as necessary. Please also post your own
-    replies too!
+1.  **Please start a discussion** on the [Canvas website][canvas site]. This
+    will allow everyone to benefit from the questions and answers posed. I will
+    monitor this discussion and post replies as necessary. Please also post your
+    own replies too!
 2.  Instructor office hours.
 
 ## Internet
@@ -207,7 +237,10 @@ for the data visualization project.
 2.  Cross Validated (<http://stats.stackexchange.com/>). A site in the same
     family as Stack Overflow. Focused on conceptual and procedural questions in
     statistics (less on implementation in R or other languages).
-3.  Google. The oldie but the goodie.
+3.  Google. The oldie.
+4.  LLMs. The newie. You can consult these for help, but you are responsible for
+    whatever code you produce; it should accomplish the intended task and you
+    must be able to explain how it works.
 
 # Useful resources
 
@@ -265,97 +298,3 @@ References”.
     -   Current UBC version of Stat 545:
     -   <https://stat545.stat.ubc.ca/course/>
 -   DataCamp interactive courses. <http://www.datacamp.com>
-
-# Topic schedule
-
-The following is the preliminary schedule of topics and will be adjusted
-as the semester progress.
-
-| Week | Class Dates   | Topic                                                      | Link                                                      |
-|------|---------------|------------------------------------------------------------|-----------------------------------------------------------|
-| 1    | 08/27 & 08/29 | Intro to the course and markdown, and Quarto               | [html](https://vancleve.github.io/BIO540-DWV/week01.html) |
-| 2    | 09/03 & 09/05 | Intro to R: data types, flow control, and functions        | [html](https://vancleve.github.io/BIO540-DWV/week02.html) |
-| 3    | 09/10 & 09/12 | Vectors, slicing, and map(ping)                            | [html](https://vancleve.github.io/BIO540-DWV/week03.html) |
-| 4    | 09/17 & 09/19 | Getting data into R data.frames via files and spreadsheets | [html](https://vancleve.github.io/BIO540-DWV/week04.html) |
-| 5    | 09/24 & 09/26 | Tidy Data                                                  | [html](https://vancleve.github.io/BIO540-DWV/week05.html) |
-| 6    | 10/01 & 11/03 | Joins and databases                                        | [html](https://vancleve.github.io/BIO540-DWV/week06.html) |
-| 7    | 10/08 & 10/10 | Text manipulation and regular expressions                  | [html](https://vancleve.github.io/BIO540-DWV/week07.html) |
-| 8    | 10/15 & 10/17 | Introduction to plotting and ggplot2                       | [html](https://vancleve.github.io/BIO540-DWV/week08.html) |
-| 9    | 10/22 & 10/24 | Plot types in ggplot2                                      | [html](https://vancleve.github.io/BIO540-DWV/week09.html) |
-|      | 10/29         | **Fall Break**                                             |                                                           |
-| 10   | 10/31         | Principles of displaying data & how to modify plots        | [html](https://vancleve.github.io/BIO540-DWV/week10.html) |
-|      | 11/05         | **Election Day**                                           |                                                           |
-|      | 11/07         | Principles of displaying data & how to modify plots        |                                                           |
-| 11   | 11/12 & 11/14 | Colors and heat maps                                       | [html](https://vancleve.github.io/BIO540-DWV/week11.html) |
-| 12   | 11/19         | Visualizing/analyzing lots of data                         | [html](https://vancleve.github.io/BIO540-DWV/week12.html) |
-|      | 11/21         | Research data management (UK Data Librarian Isaac Wink)    |                                                           |
-| 13   | 11/26         | Networks                                                   |                                                           |
-|      | 11/28         | **Thanksgiving Break**                                     |                                                           |
-| 14   | 12/03         | Project presentations                                      |                                                           |
-|      | 12/05         | Project presentations                                      |                                                           |
-|      | 12/10         | **No class - JVC at Conference**                           |                                                           |
-
-
-# Course policies
-
-## Academic policies 
-
-For full description of UK academic policies regarding excused absences and
-their verification, religious observances, prep days and reading days,
-accommodations due to disability, and non-discrimination and Title IX
-compliance, please see the link below.
-
-<https://provost.uky.edu/proposals/guidance-course-proposals/standard-academic-policy-statements>
-
-## Unexcused absences and late work
-
-Unexcused absences will result in a decrease in the attendance grade and cannot
-be made up. Unexcused or late work may be submitted but can be subject to a 5%
-penalty per day up to 20%.
-
-## Academic integrity
-
-Per university policy, students shall not plagiarize, cheat, or falsify or
-misuse academic records. Students are expected to adhere to University policy on
-cheating and plagiarism in all courses.
-
-Please see the link below for the university policies on academic offenses for
-official descriptions of cheating and plagarism and the processes and penalties
-for violations of the policies.
-
-<https://provost.uky.edu/proposals/guidance-course-proposals/academic-offenses>
-
-## Belonging and engagement
-
-Members of the course are entitled to learn from each other in an open and
-welcoming environment regardless of their racial, ethnic, gender, and sexual
-identities. Conduct that is not respectful of these identities or of the
-national origin, religion, and political beliefs students and instructors will
-not be tolerated. Please report any concerning conduct to the instructor.
-
-For information about reporting bias, harassment, or other issues or seeking accommodations, please see
-<https://ieeo.uky.edu/contact-us>.
-
-## Face covering/distancing policy
-
--   Transmission of COVID-19 and other airborne respiratory illnesses is an
-    important issue, especially during fall and winter months. The instructor
-    and students are entitled to practices that reduce transmission including,
-    and not limited to, wearing a high-quality mask and social distancing.
-
--   These transmission reducing practices are optional but the instructor
-    encourages them. If COVID-19 or another airborne illness is a specific risk
-    to a student or a student has any concerns about classroom policies, please
-    contact the instructor as soon as possible.
-
-## University resources for students
-
-For a list of university resources for students, please see the link below.
-
-<https://studentsuccess.uky.edu/get-help>
-
-## Campus Emergency Response Guide 
-
-See the link below for resources on classroom or campus emergencies.
-
-<https://police.uky.edu/emergency-response-guide>
