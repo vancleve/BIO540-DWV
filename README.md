@@ -1,4 +1,4 @@
-# BIO 540 – Data Wrangling and Visualization
+# BIO 540 – Data Wrangling and Visualization – Spring 2026
 
 
 ![](assets/covid-19_KY-TN_deaths.jpg) 
@@ -201,7 +201,16 @@ the course grade for the data visualization project.
 
 # Getting help (i.e., uh, how do I…?)
 
-# Generative AI and Large Language Models
+## Classmates and instructor
+
+1.  **Please start a discussion** on the [Canvas
+    website](https://uk.instructure.com/courses/2154439). This will
+    allow everyone to benefit from the questions and answers posed. I
+    will monitor this discussion and post replies as necessary. Please
+    also post your own replies too!
+2.  Instructor office hours / e-mail.
+
+## Generative AI and Large Language Models
 
 Large language models (LLMs) like ChatGPT, Claude, Gemini, and DeepSeek
 are quickly becoming a key tool for many software developers and
@@ -227,20 +236,11 @@ to understand how to accomplish a specific task. We will not use LLMs to
 write any significant amount of code for us.
 
 Thus, the rule for using LLMs or generative AI in this course is that
-such resources **may be used to guide and improve your understanding**
+these resources **may be used to guide and improve your understanding**
 of the data wrangling concepts and coding tools, but **you are 100%
 responsible for the code you submit for labs and your project**; **the
 code must accomplish the intended task and you must be able to explain
 how the code works** in order to receive full credit.
-
-## Classmates and instructor
-
-1.  **Please start a discussion** on the [Canvas
-    website](https://uk.instructure.com/courses/2154439). This will
-    allow everyone to benefit from the questions and answers posed. I
-    will monitor this discussion and post replies as necessary. Please
-    also post your own replies too!
-2.  Instructor office hours.
 
 ## Internet
 
