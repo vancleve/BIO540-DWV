@@ -1,14 +1,16 @@
 ---
 title: 'BIO 540: Data Wrangling and Visualization'
 author: "Jeremy Van Cleve"
-date: 27 08 2024
+date: 13 01 2026
 format: 
   html:
     self-contained: true
 ---
 
 [github site]: https://github.com/vancleve/BIO540-DWV
-[canvas site]: https://uk.instructure.com/courses/2122860
+[canvas site]: https://uk.instructure.com/courses/2154439
+
+# Outline
 
 0. I was an R newbie too!
 1. Go over syllabus
@@ -18,7 +20,7 @@ format:
 
 # Syllabus
 
-- The syllabus will be located here: <https://github.com/vancleve/BIO540-DWV>.
+- The syllabus will be located [here on GitHub][github site].
 - This is also where R and R Markdown / Quarto documents will be located. The only files that will be kept on the [Canvas site][canvas site] are the PDF copies of the reference books and the completed labs and figures that you submit.
 - I'll update the syllabus and schedule of topics as necessary.
 
@@ -240,6 +242,10 @@ You may be asking yourself how this plain text gets mixed or "knitted" together 
 ## Reproducible Research
 
 ![Table 1 from Alston and Rick (2021) Bull Ecol Soc Am 102(2):e01801. <https://doi.org/10.1002/bes2.1801>](assets/tab1_alston_rick_2021.png)
+
+By mixing text and code into a single document, Quarto and similar programs can make it easy to create a dynamic scientific document that contains all the major steps of data analysis and data visualization. Such a document can easily be shared with other researchers who can re-run the code and reproduce the results (see Figure 1 from Buckley et al. (2025) J Ecol). Changes to the underlying data or analyses can also easily be incorporated by simply re-running or compiling the whole document or select sections. These dynamic documents can even be posted on the web so that anyone can modify the analyses and see how the results change in real time. This is a powerful way to promote transparency and reproducibility in science.
+
+![Figure 1 from Buckley et al. (2025) J Ecol. <https://doi.org/10.1111/1365-2745.14454>](assets/fig1_buckley_etal_2025.jpg)
 
 # Lab ![](assets/beaker.png)
 
