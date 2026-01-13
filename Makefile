@@ -14,7 +14,7 @@ syllabus.html: syllabus.qmd
 
 tex: syllabus.tex
 syllabus.tex: syllabus.qmd
-	$(QUARTO) render syllabus.qmd --to latex --pdf-engine=xelatex \
+	$(QUARTO) render syllabus.qmd --to latex --pdf-engine=lualatex \
 		-V geometry:"margin=1in" -V fontsize:"10pt" \
         -V mainfont: "Minion Pro" \
         -V sansfont: "Myriad Pro" \
@@ -26,7 +26,7 @@ syllabus.tex: syllabus.qmd
 
 pdf: syllabus.pdf
 syllabus.pdf: syllabus.qmd
-	$(QUARTO) render syllabus.qmd --to pdf --pdf-engine=xelatex \
+	$(QUARTO) render syllabus.qmd --to pdf --pdf-engine=lualatex \
 		-V "geometry: margin=1in" \
 		-V "fontsize:10pt" \
         -V "mainfont: Minion Pro" \
