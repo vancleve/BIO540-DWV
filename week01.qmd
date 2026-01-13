@@ -217,10 +217,10 @@ Now, lets do something a little more interesting. We can pull in data from all k
 ```{r}
 #| warning: false
 library(tidyverse)
-library(RSocrata) 
+library(socratadata) 
 
 # https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Week-Ending-D/r8kw-7aab/about_data
-us = read.socrata("https://data.cdc.gov/api/odata/v4/r8kw-7aab")
+us = soc_read("https://data.cdc.gov/api/odata/v4/r8kw-7aab")
 
 us |>
   filter(state == "Kentucky" | state == "Tennessee") |>
