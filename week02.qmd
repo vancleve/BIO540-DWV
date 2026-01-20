@@ -1,7 +1,7 @@
 ---
 title: 'Intro to R: Data types, flow control, and functions'
 author: "Jeremy Van Cleve"
-date: 03 09 2024
+date: 20 01 2026
 format: 
   html:
     self-contained: true
@@ -22,25 +22,29 @@ Everything in R is an object. For example numbers are objects,
 ```{r}
 10
 ```
-and strings of characters, AKA "strings", are objects,
+and strings of characters, AKA ***strings***, are objects,
 ```{r}
 "hello world\n"
 ```
 
-One way you can work with objects in R is by using an "operator" like `+`
+One way you can work with objects in R is by using an ***operator*** like `+`
 ```{r}
 10 + 100
 ```
-or by using a function
+or by using a ***function*** like `exp`, which take as input a number returns the exponential of that number
 ```{r}
 exp(10)
 ```
 
-# Objects are functions and functions are objects
+## Objects are functions and functions are objects
 
 Even functions, like `print`, which prints a string, is an object,
 ```{r}
 print("hello world")
+```
+To see this, we can use the `str` function, which tells us about the "structure" of any object. In this case, `str` just tells us that `print` is a function:
+```{r}
+str(print)
 ```
 
 ## What is an object then? 
@@ -106,7 +110,7 @@ Either `<-` or `=` works as the assignment operator though most R aficionados wi
       mean(c(a/100,642564624.34))
       ```
 
-- Use "tabs" to set off blocks of code like loops and function definition. Good coding style will make these blocks look obvious since they are indented and spaced nicely. This makes understanding which parts of the code are run when much easier.
+- Use "tabs" to set off blocks of code like loops and function definition. Good coding style will make these blocks look obvious since they are indented and spaced nicely. This makes understanding which parts of the code are run when much easier. In fact, some languages (*cough* Python *cough*) require the use of indentation to define code blocks.
 
 - The "tidyverse" (R packages for data science) has a style guide, <https://style.tidyverse.org/>, that produces consistent and easy to read code.
 
@@ -118,6 +122,7 @@ Now that you can create objects using statements, you have to know how to name t
 
 This information comes from the help for the `make.names` command, which you can get type typing `?makes.names` where "?" before a function gives you the **help page**:
 ```{r}
+#| eval: false
 ?make.names
 ```
 Then, you convert any string into a valid R variable name using the `make.names` command:
@@ -131,7 +136,7 @@ Even when your variable names are valid, knowing the rules for naming is importa
 
 A couple tips for naming objects:
 
-- Err on the side of using longer object names that describe what that object stores: e.g., `populationSize` is often better than `N`. Note that R itself doesn't always obey this rule; e.g., the function `c` combines values. **Never** name a function a single letter.
+- Err on the side of using longer object names that describe what that object stores: e.g., `populationSize` is often better than `N`. Note that R itself often doesn't obey this rule; e.g., the function `c` combines values. **Never** name a function a single letter.
 
 - Maintain a convention for using multiple words in object names. E.g., underscores or periods for spaces or capitalize every word. The `tidyverse` [style guide](https://style.tidyverse.org/syntax.html#object-names) suggests:
 
@@ -145,7 +150,7 @@ A couple tips for naming objects:
 
 ## Scalars
 
-Scalars are the simplest object in R. They hold a single value like a number (called "numeric" by R) or a string (called "character" by R)
+Scalars are the simplest object in R. They hold a single value like a number (called ***numeric*** by R) or a string (called ***character*** by R)
 ```{r}
 number = 3.1459
 string = "hello again world"
@@ -164,7 +169,7 @@ These commands may not be super useful now, but R has enough different types of 
 
 ## Vectors
 
-Vectors are everywhere in R. They are simply lists of objects of a **common type**, like numeric or character. Actually, our scalars were just vectors with a single element. To create a vector, use the ***very poorly*** named `c` or combine function.
+Vectors are everywhere in R. They are simply lists of objects of a **common type**, like numeric or character. Actually, our scalars were just vectors with a single element. To create a vector, use the ***very poorly*** named `c` or "combine" function.
 ```{r}
 number_vector = c(1,10,100,1000)
 number_vector
@@ -207,9 +212,17 @@ mixed[[4]]
 
 The fact that lists can contain any mix of objects is super useful and comes up in data frames as well. Suppose you want to have one column of your tabular data that has student names, each of which is a string, and one column which is a numerical score for an assignment. The list will allow you to store both a vector of strings and a vector of numbers. Data frames in R are actually just special lists where each element is a vector that stores the same number of elements, which is the number of rows of the table.
 
+## Danger, Will Robinson!
+
+In our examples of how R creates vectors, a more general issue arises about how R responds when you do something maybe not quite right. When we created the `mixed` vector above, R silently converted the numbers to strings *assuming that's what you wanted to do*. Of course, maybe you didn't want that in which case your vector doesn't contain the values you expect. Similarly, if we put a function in a vector with a string,
+```{r}
+c(print, "hello world")
+```
+R assumes here we wanted to create a list and returns one. Maybe this is more understandable, since a list is the only way to group a function and a string together in a simple way. What these two scenarios share in common is that R could have thrown an error message when it received something unusual but instead it silently returned something that assumes the user intent; when it assumes correctly, this may work out for the user, but not so when it assumes incorrectly. In addition, the user may develop incorrect assumptions about how R works based on these silent assumptions. One takeaway from this is that the **lack of an error message doesn't necessarily mean that your R code is doing what you expect**. Another is that understanding the basics of how R code works is always helpful for troubleshooting issues as you can fall back on that knowledge when your assumptions about what should work based on past experience fail you.
+
 # Flow control and logical tests
 
-Flow control is a technical term for telling a program which statements or blocks of code to execute. In R, you use "if-else" statements to accomplish this. For example, you can print a statement only if a variable takes a certain value:
+Flow control is a technical term for telling a program which statements or blocks of code to execute. In R, you use `if-else` statements to accomplish this. For example, you can print a statement only if a variable takes a certain value:
 ```{r}
 test = -10
 if (test > 0) {
@@ -218,9 +231,9 @@ if (test > 0) {
   print ("test is not greater than zero")
 }
 ```
-The curly brackets enclose the block of statements that get executed if the condition is true or not. Note that the else is on the same line as the final curly bracket of the "if". The ">" (greater than) symbol is an example of a *relational operator*; others include equals, "==", not equals, "!=", and "greater than or equal", ">=" (likewise, less than operators exist too).
+The curly brackets enclose the block of statements that get executed if the condition is true or not. Note that the else is on the same line as the final curly bracket of the `if`. The `>` (greater than) symbol is an example of a ***relational operator***; others include equals, `==`, not equals, `!=`, and greater than or equal, `>=` (likewise, less than operators exist too).
 
-The outcome of a comparison with a relational operator is a "TRUE" or "FALSE" value, which are "Booleans". You can combine TRUE and FALSE values with *Boolean operators* like "&&" ("and"), "||" ("or"), and "!" ("not"). For example, you can check our whether our test variable is greater than zero or less than -1:
+The outcome of a comparison with a relational operator is a `TRUE` or `FALSE` value, which are "Booleans". You can combine `TRUE` and `FALSE` values with *Boolean operators* like `&&` ("and"), `||` ("or"), and `!` ("not"). For example, you can check our whether our test variable is greater than zero or less than -1:
 ```{r}
 test = -10
 if (test > 0 || test < -1) {
@@ -246,7 +259,7 @@ Note that the above loops shows you something else about vectors. You can build 
 
 # More on functions
 
-Functions are important so we will discuss them in more detail. Functions take "arguments" between the parentheses and these arguments are the data you want the function to use. For example, the `runif` function generates uniformly distributed random numbers. There are three arguments to the function:
+Functions are important so we will discuss them in more detail. Functions take ***arguments*** between the parentheses and these arguments are the data you want the function to use. For example, the `runif` function generates `r`andom numbers with a `unif`orm distribution. There are three arguments to the function:
 ```{r}
 str(runif)
 ```
@@ -261,7 +274,7 @@ In R, the arguments to functions often have "names". If they do, you can give th
 ```{r}
 print(runif(min = -1, max = 1, n = 10))
 ```
-Notice that giving the name of the argument allows us to give the arguments in any order. If an arguments doesn't have a name, then you must give the arguments in exactly the order they are listed in the definition of the function (see the help for a function with `?name_of_function` to get info on the arguments the function takes).
+Notice that giving the name of the argument allows us to give the arguments in any order. If an arguments doesn't have a name, then you must give the arguments in exactly the order they are listed in the definition of the function (see the help for a function with `?` to get info on the arguments the function takes).
 
 One of the most powerful parts of programming in any language is writing your own functions. To do this, you start with a name for the function and assign the object to `function(arg1, arg2, ...) { function body }`. This is called a function *definition*. For example, the function
 ```{r}
@@ -281,7 +294,7 @@ rvals = runit(5)
 print(rvals)
 ```
 
-One situation that comes up often in data wrangling, processing, and analysis is that you'll want to perform a small set of calculations on some data, like a column in a data frame, and writing a separate function definition seems like a lot of typing for that. R provides **anonymous** functions for just these situations. An anonymous function is one you can write quickly in a single line and doesn't require a name for the function. You start with `\(arg1, arg2, ...)` and then write your line of code. For example, this anonymous function
+One situation that comes up often in data wrangling, processing, and analysis is that you'll want to perform a small set of calculations on some data, like a column in a data frame, and writing a separate function definition seems like a lot of typing for that. R provides ***anonymous*** functions for just these situations. An anonymous function is one you can write quickly in a single line and doesn't require a name for the function. You start with `\(arg1, arg2, ...)` and then write your line of code. For example, this anonymous function
 ```{r}
 \(x) x^2
 ```
@@ -293,29 +306,4 @@ squares its argument
 
 # Lab ![](assets/beaker.png)
 
-1.  Write a function that takes a single vector argument and prints out the indices (i.e., location in the vector) that are greater than zero. For example, if you create a vector of normally distributed random numbers, 
-    ```{r}
-    #| eval: false
-    rvec = rnorm(100)
-    ```
-    then your function should output the numbers between 1 and 100 where the vector is positive. For example,
-    ```{r}
-    #| eval: false
-    your_fuction(rvec)
-    ```
-    would then output something like `[1] 3 56 19 40 58 99`.
-    
-    Tips. Use a `for` loop.
-
-2.  Write a function that takes as input two vectors and returns an output vector of the same length where each element of the output is sum of the two elements of the two input vectors.
-
-    Tips. Use a for loop again.\
-    +3 pts: write the function so that it can take any number of input vectors (hint: search for something like "variable number of arguments")
-
-3.  Suppose you are working on same data with a "month" column specifying the month the data were collected. However, the person generating the data did not use a consistent way of inputting the month and alternated between either a number, a three letter abbreviation, or the full month name. Write a function that takes as input the `month` vector below, which represents this messy month column, and returns an output vector where the months are now all either a number, three letter abbreviation, or full name (your choice as to which to output). In short, your function should take the `months` vector and return a cleaned up version with only a single format for representing the month.
-
-    ```{r}
-    #| warning: false
-    library(tidyverse)
-    months = read_csv("months.csv") |> pull(month)
-    ```
+Thursday...
