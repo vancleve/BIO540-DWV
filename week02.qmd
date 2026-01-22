@@ -306,7 +306,7 @@ squares its argument
 
 # Lab ![](assets/beaker.png)
 
-1.  Write a function that takes a single vector argument and prints out the indices (i.e., location in the vector) that are greater than zero. For example, if you create a vector of normally distributed random numbers, 
+1.  Write a function that takes a single vector argument and prints out the values from the vector that are greater than zero. For example, if you create a vector of normally distributed random numbers, 
     ```{r}
     #| eval: false
     rvec = rnorm(100)
