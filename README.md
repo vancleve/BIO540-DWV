@@ -327,7 +327,7 @@ as the semester progress.
 |----|----|----|----|
 | 1 | 01/13 & 01/15 | Intro to the course and markdown, and Quarto | [html](https://vancleve.github.io/BIO540-DWV/week01.html) |
 | 2 | 01/20 & 01/22 | Intro to R: data types, flow control, and functions | [html](https://vancleve.github.io/BIO540-DWV/week02.html) |
-| 3 | 01/27 & 01/29 | Vectors, slicing, and map(ping) |  |
+| 3 | 01/27 & 01/29 | Vectors, slicing, and map(ping) | [html](https://vancleve.github.io/BIO540-DWV/week03.html) |
 | 4 | 02/03 & 02/05 | Getting data into R data.frames via files and spreadsheets |  |
 | 5 | 02/10 & 02/12 | Tidy Data |  |
 | 6 | 02/17 & 02/19 | Joins and databases |  |
