@@ -246,11 +246,34 @@ You can get the first few rows with
 ```{r}
 head(us_hosps_deaths)
 ```
+The data are collected for each week and the `week_end_date` column gives the last day of the week for that row of data. The `state` column gives the US state or territory for that row of data. The other columns give various hospitalization and death metrics for COVID-19 and other respiratory infections in that state during that week. See the links above for more information on what each column means.
 
-The data are saved as a `tibble`, which is really a fancy `data.frame`, which is a special kind of list that we will discuss in more detail next week. For this lab, we will practice slicing the `data.frame` as if it were a matrix. 
+The data are saved as a `tibble`, which is really a fancy `data.frame`, which is a special kind of list that we will discuss in more detail next week. For this lab, we will practice slicing the `data.frame` as if it were a **matrix**. 
 
-**Please include the code chunk above that loads in the data and creates the `us_hosps_deaths` data table as the first code chunk in the markdown file that you submit for this assignment.** That way, the table will be present when I run the code in your markdown file.
+In the `qmd` that you submit, **please include the code chunk above that loads in the data and creates the `us_hosps_deaths` data table as the first code chunk in the markdown file that you submit for this assignment.** That way, the table will be present when I run the code in your markdown file.
 
 ### Problems
 
-Thursday...
+Use `us_hosps_deaths` data table from the code above for each of the problems belove. You should be able to use a few lines of R code to obtain the answer directly (i.e., you shouldn't just scroll though the data table and give the answer by hand). Use the vector indexing operations discussed this week to do your slicing (even if you know another way using `dplyr` or other R packages). 
+
+This is a big table so use the `str(us_hosps_deaths)` function to get information on all the columns and `view(us_hosps_deaths)` will bring up the GUI viewer of the table.
+
+1.  Which **state** had the most **COVID-19 deaths** during one week in 2021? Which week was that?\
+    (hint: remember you can compare dates: e.g., "2021-01-02" > "2021-01-01" is `TRUE`, etc.)\
+    (hint: you'll need the boolean `&`, **single ampersand**, to combine multiple conditions when they involve vectors)\
+    (hint: your solution might use the `which.max` function)
+
+2.  How many COVID-19 deaths did Kentucky have during 2021?\
+    (hint: use the `sum` function)
+
+3.  How many COVID-19 deaths were there outside of California in the month of August 2021?
+
+4.  Which US state has the second fewest COVID-19 hospitalizations in 2021? Use the column `total_admissions_all_covid_confirmed`.\
+    (hint: get a vector of all the (unique) states)\
+    (hint: use `sapply` on that vector with an anonymous function that sums the hospitalization column for the right state and dates)\
+    (hint: use `sort` to help you find the second fewest hospitalizations)
+
+5. Which week in 2021 had the highest number of hospitalizations in the country (across all states and territories)? Use the column `total_admissions_all_covid_confirmed`.\
+   (hint: use `sapply` and `sum` to get the totals for each date in a way similar to question 4. Then use the `order` function to give you the right order to sort the dates...)
+
+   

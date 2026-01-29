@@ -2772,12 +2772,29 @@ $c
 #   weekly_percent_days_reporting_any_data &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-<p>The data are saved as a <code>tibble</code>, which is really a fancy <code>data.frame</code>, which is a special kind of list that we will discuss in more detail next week. For this lab, we will practice slicing the <code>data.frame</code> as if it were a matrix.</p>
-<p><strong>Please include the code chunk above that loads in the data and creates the <code>us_hosps_deaths</code> data table as the first code chunk in the markdown file that you submit for this assignment.</strong> That way, the table will be present when I run the code in your markdown file.</p>
+<p>The data are collected for each week and the <code>week_end_date</code> column gives the last day of the week for that row of data. The <code>state</code> column gives the US state or territory for that row of data. The other columns give various hospitalization and death metrics for COVID-19 and other respiratory infections in that state during that week. See the links above for more information on what each column means.</p>
+<p>The data are saved as a <code>tibble</code>, which is really a fancy <code>data.frame</code>, which is a special kind of list that we will discuss in more detail next week. For this lab, we will practice slicing the <code>data.frame</code> as if it were a <strong>matrix</strong>.</p>
+<p>In the <code>qmd</code> that you submit, <strong>please include the code chunk above that loads in the data and creates the <code>us_hosps_deaths</code> data table as the first code chunk in the markdown file that you submit for this assignment.</strong> That way, the table will be present when I run the code in your markdown file.</p>
 </section>
 <section id="problems" class="level3">
 <h3 class="anchored" data-anchor-id="problems">Problems</h3>
-<p>Thursday…</p>
+<p>Use <code>us_hosps_deaths</code> data table from the code above for each of the problems belove. You should be able to use a few lines of R code to obtain the answer directly (i.e., you shouldn’t just scroll though the data table and give the answer by hand). Use the vector indexing operations discussed this week to do your slicing (even if you know another way using <code>dplyr</code> or other R packages).</p>
+<p>This is a big table so use the <code>str(us_hosps_deaths)</code> function to get information on all the columns and <code>view(us_hosps_deaths)</code> will bring up the GUI viewer of the table.</p>
+<ol type="1">
+<li><p>Which <strong>state</strong> had the most <strong>COVID-19 deaths</strong> during one week in 2021? Which week was that?<br>
+(hint: remember you can compare dates: e.g., “2021-01-02” &gt; “2021-01-01” is <code>TRUE</code>, etc.)<br>
+(hint: you’ll need the boolean <code>&amp;</code>, <strong>single ampersand</strong>, to combine multiple conditions when they involve vectors)<br>
+(hint: your solution might use the <code>which.max</code> function)</p></li>
+<li><p>How many COVID-19 deaths did Kentucky have during 2021?<br>
+(hint: use the <code>sum</code> function)</p></li>
+<li><p>How many COVID-19 deaths were there outside of California in the month of August 2021?</p></li>
+<li><p>Which US state has the second fewest COVID-19 hospitalizations in 2021? Use the column <code>total_admissions_all_covid_confirmed</code>.<br>
+(hint: get a vector of all the (unique) states)<br>
+(hint: use <code>sapply</code> on that vector with an anonymous function that sums the hospitalization column for the right state and dates)<br>
+(hint: use <code>sort</code> to help you find the second fewest hospitalizations)</p></li>
+<li><p>Which week in 2021 had the highest number of hospitalizations in the country (across all states and territories)? Use the column <code>total_admissions_all_covid_confirmed</code>.<br>
+(hint: use <code>sapply</code> and <code>sum</code> to get the totals for each date in a way similar to question 4. Then use the <code>order</code> function to give you the right order to sort the dates…)</p></li>
+</ol>
 </section>
 </section>
 
