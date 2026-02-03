@@ -1,7 +1,7 @@
 ---
 title: 'Getting data into R with data.frames and spreadsheets'
 author: "Jeremy Van Cleve"
-date: 17 09 2024
+date: 03 02 2026
 format: 
   html:
     self-contained: true
@@ -162,7 +162,7 @@ str(c(a=1, b="two"))
 
 A special object that you will see when dealing with data frames is called a "factor". A factor is a vector that can contain only predefined values and essentially stores categorical data (e.g., "tall", "medium", and "short" for plant height). Factors have a "levels" attribute that lists the allowable values. For example
 ```{r}
-fac_factor = factor(c("Famulski", "Burger", "Seifert", "Santollo", "Duncan", "Singh"))
+fac_factor = factor(c("Famulski", "Burger", "Seifert", "Santollo", "Duncan", "Long"))
 fac_factor
 ```
 You can get the levels of a factor with
@@ -185,7 +185,7 @@ The main place factors are used that we'll encounter in this course is when plot
 
 # Data frames
 
-Finally we have reached data frames. Data frames are the **most common way of storing data in R**. Essentially, a data frame is a list object containing vectors of equal length (i.e., the number of rows of the table). Put another way, a data frame is a `list` version of a matrix. Thus, data frames have properties such as `length()`, `rnow()`, `ncol()` `colnames()`, and `rownames()`.
+Finally, we have reached data frames. Data frames are the **most common way of storing data in R**. Essentially, a data frame is a list object containing vectors of equal length (i.e., the number of rows of the table). Put another way, a data frame is a `list` version of a matrix. Thus, data frames have properties such as `length()`, `rnow()`, `ncol()` `colnames()`, and `rownames()`.
 
 Creating a data frame is like creating a list where you name your elements, which here are columns (data not guaranteed to be accurate...):
 ```{r}
@@ -193,22 +193,24 @@ dframe = data.frame(height_rank = 1:4, last_name = c("Van Cleve", "Linnen", "Sei
 dframe
 ```
 
-Slicing a data frame works like slicing a matrix or a list. Often, we will use the list convention where columns can be obtained with `$`. For example,
+Slicing a data frame works like slicing a matrix and also like slicing a list. Often, we will use the list convention where columns can be obtained with `$`. For example,
 ```{r}
 dframe$first_name
 dframe$last_name
 ```
+This is convient because the column names make clear what kind of data we're slicing from the data frame.
 
-Adding columns to a data frame is done with `cbind` ("column bind"), which glues together columns,
+Adding columns to a data frame is done with `cbind` ("column bind"), which glues together columns. To add the column `building`, we do the following
 ```{r}
 cbind(dframe, building = c("THM", "THM", "THM", "THM"), floor = c(2,2,2,3))
 ```
-and adding rows with `rbind` ("row bind"), which glues together rows,
+Adding rows can be done with `rbind` ("row bind"), which glues together rows,
 ```{r}
 rbind(dframe, data.frame(height_rank = 0, last_name = "Smith", first_name = "Jeramiah"))
 ```
+Note here that he have to create a new data `data.frame` for our new row since `dframe` is a `data.frame` and so binding rows together here means binding together two data frames each with the same columns.
 
-Again, note that each of these commands returned a **new** `data.frame` and the original is unchanged until we explicitly save back to that variable name:
+Note that each of these commands returned a **new** `data.frame` and the original is unchanged until we explicitly save back to that variable name:
 ```{r}
 dframe
 ```
@@ -261,42 +263,10 @@ make.names("Preoptic Area (ref)")
 ```
 So a "normal" `data.frame` would do this to the data:
 ```{r}
-data.frame(imprint)
+head(data.frame(imprint))
 ```
-Note also that in the `html`, the full data frame is printed, which means tons of scrolling, whereas only a preview of the `tibble` is printed, which is usually more convenient. The `tibble` type also doesn't automatically convert character columns to factors. In old versions of R (pre 4.0.0), `data.frame` automatically did this to the consternation of many.
+In the `html`, the full data frame would be printed (here, `head` was used above to limit the output to the first few rows), which would means tons of scrolling, whereas only a preview of the `tibble` is printed, which is usually more convenient. The `tibble` type also doesn't automatically convert character columns to factors. In old versions of R (pre 4.0.0), `data.frame` automatically did this to the consternation of many.
 
 # Lab ![](assets/beaker.png)
 
-Now that you have all the essential elements of slicing, let's do some more things with COVID-19 data, but this time with world wide data from "[Our World in Data](https://ourworldindata.org/coronavirus)": <https://docs.owid.io/projects/etl/api/covid/>. This is a big data set, so it might take a few moments to download.
-
-**Note**. The cases and deaths are only reported every week in these data so `new_cases`, `new_deaths`, etc are the total for the week (I assume the date is the end of the week though the website wasn't clear 🤷).
-
-```{r}
-#| message: false
-library(tidyverse)
-
-owid = read_csv("https://catalog.ourworldindata.org/garden/covid/latest/compact/compact.csv")
-```
-
-Before starting on the problems, take a look at which columns are provided in the table. This will help for solving the problems.
-
-### Problems
-
-1.  Plot the new cases per week per million people for the pandemic for the United States. Use a line plot.\
-    (hint: use the help for plot, `?base::plot`, to figure out how to set the plot type.)\
-    (hint: try to make plot not too jagged by removing rows where `new_cases == 0`)
-
-2.  What week had the highest number of new deaths in the United States?\
-    (hint: use the `order` (remember to sort descending) or `which.max` functions.)
-
-3.  What date and in what country was the worst (i.e., highest) for per capita death due to COVID-19?
-
-4.  What date and in what country was the worst (i.e., highest) for positivity rate COVID-19?
-
-5.  Create a **new data frame** using the data from `owid` called `new_cases_per_100k` consisting of the following columns, `location`, `date`, and `cases`, where `cases` is the number of new cases per 100,000 people. In two separate plots, plot the number of new cases per 100k people over time for the United Kingdom (plot 1) and Canada (plot 2). If you wanted to present these plots side by side so as to compare the severity of the pandemic in the UK vs Canada, what might you have to do to make them more comparable?
-
-6.  In 2021, on how many days did the United States have fewer than 0.7 deaths per million people due to COVID-19? What is answer the United Kingdom? Use the column `new_deaths_smoothed_per_million` to answer this question.
-
--   Challenge problem (+3 extra credit)
-    
-    Plot a heatmap of the imprinting data using the `heatmap` function. The rows and columns of the heatmap should be labeled properly with the gene names (rows) and tissue names (columns). The Babak et al. (2015) paper has a similar heatmap in Fig 1. Hint: read carefully the help for the `heatmap` function and know that you can convert data frames to matrices with `as.matrix`.
+Thursday...
