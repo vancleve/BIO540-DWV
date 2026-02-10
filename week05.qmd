@@ -1,7 +1,7 @@
 ---
 title: 'Tidy Data'
 author: "Jeremy Van Cleve"
-date: 24 09 2024
+date: 10 02 2026
 format: 
   html:
     self-contained: true
@@ -23,9 +23,8 @@ format:
 
 Hadley Wickham points out the nice connection between the above quote and data formats [^1]. While data formatting might seem esoteric and boring, paying attention to it early on can pay off a great deal in the long term, which hopefully leads to a happy scientist. If one were to break data formatting into two phases, they might be these:
 
-    Phase 1. The literal production of data itself from your experiment since you must choose a format and medium in which to record the data. 
-    
-    Phase 2. The input and formatting of data into your analysis tool (e.g., R). This might involve minimal changing of the "format" or a great deal of reshaping of the data.
+- **Phase 1.** The literal production of data itself from your experiment since you must choose a format and medium in which to record the data. 
+- **Phase 2.** The input and formatting of data into your analysis tool (e.g., R). This might involve minimal changing of the "format" or a great deal of reshaping of the data.
     
 Working backward, you do the least work on data formatting if you choose to save your data initially in a format that is easiest to analyze with R. Since we will use the graphing package, `ggplot2`, by Hadley Wickham, we will use the data format, **tidy data**, that he advocates. Lest you worry that this is too Hadley specific, or even R specific, this kind of format is pretty popular now as a way to "layer" or "compose" plots that use different graphical elements to represent different variables in the data (e.g., `plotly` and `seaborn` in Python and `AlgebraOfGraphics` and `TidierPlots.jl` in Julia). To get a sense for what this format is and why it might be useful, consider some different ways to organize data on tuberculosis (TB) cases where you have three variables, *country*, *year*, and *population*, for each measurement of *cases*. First, each variable including *cases* could have its own column:
 ```{r}
@@ -41,7 +40,7 @@ table4b # population
 
 To see why the this format might get cumbersome, you just have to suppose you want to add more variables: each new variable requires a new table. If you are interested in just one variable and how it changes across country and year, you are fine. But if you want to look across variables, say correlate population and caseload over time, then you have to slice two different tables. If you want to manipulate three variables, then you have to manipulate three different tables, etc. With the first format, we can include all the variables in a single table. The first format is the **tidy** format. 
 
-# One format to rule them all: tidy data
+# One format to rule them all: tidy data ![](assets/one-ring.png){width=50px}
 
 The tidy format has the following three rules[^1]:
 
@@ -54,17 +53,17 @@ Visually, this looks like
 
 The primary benefit of tidy data is that every variable is a vector (column), which means that slicing data is just slicing columns. Though this may become complicated when the number of variables is large, there are some helper functions that will make slicing tidy data much easier. The slicing functions come from the package `dplyr` and the plotting package `ggplot2` assumes tidy data.
 
-To give a flavor of the power of tidy data and `ggplot2`, we'll look at an example. The "GWAS Catalog" (<https://www.ebi.ac.uk/gwas/home>) keeps track of the SNPs associated with traits in genome-wide association studies (GWAS). We can download these data, take a reasonable subset to play with (the 100 diseases with the most SNPS), and plot some things. For example, here are SNPs associated with breast, colon, and prostate cancer:
+To give a flavor of the power of tidy data and `ggplot2`, we'll look at an example. The "GWAS Catalog" (<https://www.ebi.ac.uk/gwas/home>) keeps track of the SNPs associated with traits in genome-wide association studies (GWAS). We can download these data, take a reasonable subset to play with (cancer related traits), and plot some things. For example, here are SNPs associated with breast, colon, and prostate cancer:
 ```{r}
 #| message: false
 #| warning: false
 # https://www.ebi.ac.uk/gwas/docs/file-downloads
-# we'll load a subset of these data; namely, the 100 diseases with the most SNPs in the database once we remove those associated with some common body/weight and education phenotypes
+# we'll load a subset of these data with traits related to cancer
 # to clean things up a little, we filter out rows where the CHR_POS isn't a single number; this way, the x-axis label is nice automatically.
 
-gwas = read_tsv("gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv", col_types = cols(CHR_POS = col_number()))
+gwas_cancer = read_tsv("gwas-catalog-v1.0-associations-e115-r2026-01-19-cancer.tsv", col_types = cols(CHR_POS = col_number()))
 
-filter(gwas, `DISEASE/TRAIT` == 'Prostate cancer' | `DISEASE/TRAIT` == "Colorectal cancer" | `DISEASE/TRAIT` == "Breast cancer") |>
+filter(gwas_cancer, `DISEASE/TRAIT` == 'Prostate cancer' | `DISEASE/TRAIT` == "Colorectal cancer" | `DISEASE/TRAIT` == "Breast cancer") |>
   ggplot(aes(x=CHR_POS)) + 
   geom_point(aes(y=PVALUE_MLOG, color=`DISEASE/TRAIT`))
 ```
@@ -200,28 +199,28 @@ We'll use the GWAS data you loaded above to demonstrate each of the five tasks.
 
 ## Filtering rows with `filter()`
 
-Let's look at the GWAS data with `glimpse` (which is from `tidyverse`). 
+Let's look at the GWAS cancer data with `glimpse` (which is from `tidyverse`). 
 ```{r}
-glimpse(gwas)
+glimpse(gwas_cancer)
 ```
 Each observation (row) is a SNP from a GWAS study and we information on its location, the disease/trait associated, etc. Let's filter just SNPs for colorectal cancer
 ```{r}
-filter(gwas, `DISEASE/TRAIT` == 'Colorectal cancer')
+filter(gwas_cancer, `DISEASE/TRAIT` == 'Colorectal cancer')
 ```
 We could apply another filter by just adding an argument, such as having a -log(p-value) (higher values of this mean more significant!) of greater than 10
 ```{r}
-filter(gwas, `DISEASE/TRAIT` == 'Colorectal cancer', PVALUE_MLOG > 10)
+filter(gwas_cancer, `DISEASE/TRAIT` == 'Colorectal cancer', PVALUE_MLOG > 10)
 ```
 Note that `filter` combines consecutive arguments by default using the "&". You could equivalently give a single argument with the "&" to get the same slice
 ```{r}
-filter(gwas, `DISEASE/TRAIT` == 'Colorectal cancer' & PVALUE_MLOG > 10)
+filter(gwas_cancer, `DISEASE/TRAIT` == 'Colorectal cancer' & PVALUE_MLOG > 10)
 ```
 
 ## Arrange rows with `arrange()`
 
 The function `arrange` just sorts the rows based on the columns you specify. For example, to sort the colorectal cancer SNPs by `DATE` of the study,
 ```{r}
-colocancer = filter(gwas, `DISEASE/TRAIT` == 'Colorectal cancer')
+colocancer = filter(gwas_cancer, `DISEASE/TRAIT` == 'Colorectal cancer')
 arrange(colocancer, DATE)
 ```
 and use `desc` to make the sort a descending one,
@@ -233,48 +232,48 @@ arrange(colocancer, desc(DATE))
 
 The `select` function simple selects specific columns (i.e., variables). To get only the disease, chromosome position, and -log(p-value) from the full data,
 ```{r}
-select(gwas, `DISEASE/TRAIT`, CHR_POS, PVALUE_MLOG)
+select(gwas_cancer, `DISEASE/TRAIT`, CHR_POS, PVALUE_MLOG)
 ```
 
 ## Add new variables with mutate()
 
 You may want to add new variables that are functions of other variables. For example, you could create a column for the p-value from the `PVALUE_MLOG` (there is already one in the table, but we'll make another)
 ```{r}
-sm_gwas = select(gwas, `DISEASE/TRAIT`, CHR_POS, PVALUE_MLOG, `P-VALUE`)
-mutate(sm_gwas, new_p_value = 10^(-PVALUE_MLOG))
+sm_gwas_cancer = select(gwas_cancer, `DISEASE/TRAIT`, CHR_POS, PVALUE_MLOG, `P-VALUE`)
+mutate(sm_gwas_cancer, new_p_value = 10^(-PVALUE_MLOG))
 ```
 
 ## Summaries with `summarize()`
 
 The function `summarize` (Hadley prefers the British spelling, `summarise`, which I refuse to acknowledge as an American 😤) collapses the data frame to a single row:
 ```{r}
-summarize(gwas, mean_mlog_p_value = mean(PVALUE_MLOG)) 
+summarize(gwas_cancer, mean_mlog_p_value = mean(PVALUE_MLOG)) 
 ```
 This isn't terribly useful until you use the `group_by` function to do the summarize action on data by "group", which you specify according to values of variables. To see the average for each disease, group by `DISEASE/TRAIT`,
 ```{r}
-grouped_gwas = group_by(gwas, `DISEASE/TRAIT`)
-summarize(grouped_gwas, mean_mlog_p_value = mean(PVALUE_MLOG))
+grouped_gwas_cancer = group_by(gwas_cancer, `DISEASE/TRAIT`)
+summarize(grouped_gwas_cancer, mean_mlog_p_value = mean(PVALUE_MLOG))
 ```
 or add the journal the study was published in
 ```{r}
-grouped_gwas = group_by(gwas, `DISEASE/TRAIT`, JOURNAL)
-meanp = summarize(grouped_gwas, mean_mlog_p_value = mean(PVALUE_MLOG))
+grouped_gwas_cancer = group_by(gwas_cancer, `DISEASE/TRAIT`, JOURNAL)
+meanp = summarize(grouped_gwas_cancer, mean_mlog_p_value = mean(PVALUE_MLOG))
 meanp
 ```
 Finally, let's take the mean across all diseases for each journal and then sort by p-value to see the pattern with the journal a little better
 ```{r}
-arrange(summarize(group_by(gwas, JOURNAL), mean_mlog_p_value = mean(PVALUE_MLOG)), desc(mean_mlog_p_value))
+arrange(summarize(group_by(gwas_cancer, JOURNAL), mean_mlog_p_value = mean(PVALUE_MLOG)), desc(mean_mlog_p_value))
 ```
 Another nice function to use with `summarize` is the "counting" function `n()`, which can give the number of rows in each group. Since each row is a SNP, we can get the number of SNPs for each disease/trait this way:
 ```{r}
-arrange(summarize(group_by(gwas, `DISEASE/TRAIT`), n_SNPS = n()), desc(n_SNPS))
+arrange(summarize(group_by(gwas_cancer, `DISEASE/TRAIT`), n_SNPS = n()), desc(n_SNPS))
 ```
 
 # Using the `|>` operator to chain together functions
 
 The slicing and summarzing operations we've been doing can quickly get messy as we added more operations. Since each operation is applied to the results of the previous one, it ends up with a bunch of very nested parentheses, which can be hard to read. The pipe operator `|>` allows you to easily chain together operations so that its easier to read them from left to right. For example, the previous `summarize` and `arrange` operations could be put together like
 ```{r}
-gwas |>
+gwas_cancer |>
   group_by(`DISEASE/TRAIT`) |>
   summarize(n_SNPS = n()) |>
   arrange(desc(n_SNPS))
@@ -289,42 +288,4 @@ Effectively, the pipe takes what is on the left side of it and uses it as the fi
 
 # Lab ![](assets/beaker.png)
 
-For these problems, use the functions introduced above from the `tidyverse` packages like `dplyr` as much as possible.
-
-### Problems
-
-1.  Using the GWAS data, 
-    ```{r}
-    library(tidyverse)
-    gwas = read_tsv("gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv", col_types = cols(CHR_POS = col_number()))
-    ```
-    produce a data table that shows the **mean**, **maximum**, **minimum**, and **variance** of `PVALUE_MLOG` for each combination of disease and journal. Sort the table by the mean value of `PVALUE_MLOG`.
-
-2.  Recall the gene expression last that was briefly introduced last week:
-    ```{r}
-    library(readxl)
-    imprint = read_excel("babak-etal-2015_imprinted-mouse.xlsx", na = "NaN")
-    ```
-    
-    Each row is a gene, each column is a tissue type, and each cell contains a gene expression measurement.
-
-    **Make these data tidy (in one way) by collapsing the tissue columns and making the data table longer**
-    
-    You will need the `pivot_longer` function. The first trick here will be first to identify the "observations" and then the "names_to", which is the variable that changes across each observation. 
-    
-    The second trick is specifying the columns across which you need to gather together into a single column. A hint for the second trick is that you can specify the columns you don't want with the `-` operator or `!` (NOT) operator.
-    
-    The answer will be deceivingly simple! This is the elegance / frustration of R. 
-    
-3.  Using the tidy data from Problem 2, find the **number of genes** (across all tissue types) that have an **expression value <= 10 and  > 2**. These genes are "paternally imprinted" in the Babak et al. dataset, which means they are only expressed from the maternal copy of the gene. 
-
-    Hint: you will need to count each gene once even if it appears in multiple rows, which can be done with the `distinct` function.
-
-4.  Use `pivot_wider` to return the genomic imprinting tidy data from Problem 2 to their original wide format.
-
-5.  We'll use some the CDC data on COVID-19 deaths for this problem
-    ```{r}
-    library(RSocrata) 
-    covid19deaths = read.socrata("https://data.cdc.gov/api/odata/v4/r8kw-7aab") |> as_tibble() |> filter(group == "By Week")
-    ```
-   These data are tidy. Make a **wider** version of this table by making columns for each state and using the `covid_19_deaths` column as the values. You can discard all the other columns except `week_ending_date`, `covid_19_deaths`, and the columns for each state. You should have only one row for each date.
+Thursday...
