@@ -294,6 +294,7 @@ For these problems, use the functions introduced above from the `tidyverse` pack
 
 1.  Using the GWAS data, 
     ```{r}
+    #| warning: false
     library(tidyverse)
     gwas_cancer = read_tsv("gwas-catalog-v1.0-associations-e115-r2026-01-19-cancer.tsv", col_types = cols(CHR_POS = col_number()), na = "NR")
     ```
