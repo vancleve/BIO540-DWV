@@ -327,4 +327,4 @@ For these problems, use the functions introduced above from the `tidyverse` pack
     library(socratadata) 
     covid19deaths = soc_read("https://data.cdc.gov/api/odata/v4/r8kw-7aab") |> as_tibble() |> filter(group == "By Week")
     ```
-   These data are tidy. Make a **wider** version of this table by making columns for each state and using the `covid_19_deaths` column as the values. You can discard all the other columns except `week_ending_date`, `covid_19_deaths`, and the columns for each state. You should have only one row for each date.
+    These data are tidy. Make a **wider** version of this table by making columns for each state and using the `covid_19_deaths` column as the values. You can discard all the other columns except `week_ending_date`, `covid_19_deaths`, and the columns for each state. You should have only one row for each date.

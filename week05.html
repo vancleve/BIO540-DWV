@@ -2968,9 +2968,9 @@ $ CNV                          &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(socratadata) </span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>covid19deaths <span class="ot">=</span> <span class="fu">soc_read</span>(<span class="st">&quot;https://data.cdc.gov/api/odata/v4/r8kw-7aab&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(group <span class="sc">==</span> <span class="st">&quot;By Week&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></li>
+</div>
+<p>These data are tidy. Make a <strong>wider</strong> version of this table by making columns for each state and using the <code>covid_19_deaths</code> column as the values. You can discard all the other columns except <code>week_ending_date</code>, <code>covid_19_deaths</code>, and the columns for each state. You should have only one row for each date.</p></li>
 </ol>
-<p>These data are tidy. Make a <strong>wider</strong> version of this table by making columns for each state and using the <code>covid_19_deaths</code> column as the values. You can discard all the other columns except <code>week_ending_date</code>, <code>covid_19_deaths</code>, and the columns for each state. You should have only one row for each date.</p>
 </section>
 </section>
 
