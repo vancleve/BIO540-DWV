@@ -1,7 +1,7 @@
 ---
 title: 'Text manipulation: regular expressions'
 author: "Jeremy Van Cleve"
-date: 08 10 2024
+date: 23 02 2026
 format: 
   html:
     self-contained: true
@@ -16,12 +16,13 @@ format:
 
 - Text basics
 - Basic string manipulation using `stringr`
-- Regular expressions: basics
-- Regex: character classes
-- Regex: quantifiers
-- Regex: grouping
-- Regex: replacing matches
-- Regex: practice!
+- Regular expressions
+  - Metacharacters
+  - Character classes
+  - Quantifiers
+  - Grouping
+  - Replacing matches
+  - Practice!
 
 # Text basics
 
@@ -165,7 +166,7 @@ str_replace(my_fruit, "fruit", "XXX")
 my_fruit # it didn't modify the original (as usual for most R functions)
 ```
 
-# Regular expressions: basics
+# Regular expressions
 
 In the previous examples, strings were matched directly and entirely; either the whole string (e.g, "fruit") matched some piece of the string exactly or it didn't match at all. Regular expressions ("regex"" for short) provide a syntax for constructing much more complicated ways to match strings than an exact match. Using a regular expression, you can construct a pattern that will only match dates (no matter the date!) or ones that will only match URLs (no matter the URL!). Needless to say, this can be extremely helpful when you have to modify/edit tons of data, but the drawback is the regular expressions have a steep learning curve.
 
@@ -189,7 +190,7 @@ Like the quote characters and backslash, regex have special characters that are 
 -   `*`, `+`, `?`, `{}`: quantifiers; see below
 -   `()`: create "groups"; see below
 
-# Regex: character classes
+## Character classes
 
 Suppose that you want to match any of the characters "a" or "b"? The "|" operator, which is an "or" operator, works for this because it matches either pattern on its sides. For example,
 ```{r}
@@ -247,7 +248,7 @@ str_view("Is 'party like it is 1999' the BEST Prince song????", regex("[abc]", i
 ```
 This is simpler especially if you worry there could be weird combinations of upper and lower case letters.
 
-# Regex: quantifiers
+## Quantifiers
 
 One of the most important pieces of a regex pattern is a **quantifier** that denotes how many times each piece of the pattern show match. There are four basic quantifiers:
 
@@ -264,7 +265,7 @@ str_view("is 'party like it is 1999' the best prince song????", "\\?+?")
 ```
 The last example shows how adding the `?` to either `*` or `+` can make the quantifier "not greedy" and it will only matches as few characters as possible to match.
 
-# Regex: grouping and detecting matches.
+# Grouping and detecting matches.
 
 Eventually you will want to extract pieces of a match. For example, if you try to match four digit years, you may want to know what years the regex matched. In order to extract this piece from a larger pattern, you can "group" the year part of the pattern.
 
@@ -284,7 +285,7 @@ str_count("is 'party like it is 1999' the best prince song????", "\\?{2}")
 ```
 Note here that matches don't overlap; otherwise you would count more than 2 matches in the four exclamation points.
 
-# Regex: replacing matches
+## Replacing matches
 
 Replacing text with regular expression involves supplying a pattern to match and a replacement string. For example, using `str_replace()`,
 ```{r}
@@ -296,7 +297,7 @@ The groups can also be taken advantage of in the replacement where the variables
 str_replace("is 'party like it is 1999' the best prince song????", "(\\w+) +(\\d{4})", "was 1899 but \\1 now \\2")
 ```
 
-# Regex: practice!
+## Practice!
 
 There are a couple of nice websites that allow you to easily construct a regex pattern and see how it matches text at the same time. This can be very useful when trying to construct a pattern to do a very specific job.
 
@@ -309,27 +310,4 @@ This is a good places to learn the basics too in a more fun way:
 
 # Lab ![](assets/beaker.png)
 
-For reference, here is the RStudio regular expression cheat sheet: 
-[pdf on github](https://github.com/rstudio/cheatsheets/blob/4cfbc4c7ec5857b524473db219a1c4d402dd5e80/regex.pdf).
-
-### Problems
-
-1.  Go to <https://regexcrossword.com/challenges/beginner>. Solve the first four puzzles and submit the answers to them in your qmd file.
-
-2.  Write your own 2x2 regex crossword in the style of the puzzles in problem #1. Provide the puzzle and solution.
-
-3.  Use GWAS Catalog data for this problem, which you can load like this:
-    ```{r}
-    #| message: false
-    gwas = read_tsv("gwas-catalog-v1.0.3.1-studies-r2024-09-22.tsv")
-    ```
-    Unlike our previous GWAS data, these data are just the studies (not the individual SNPs) but they are all the studies in the database.\
-    For a description of the columns in this dataset, look here: <https://www.ebi.ac.uk/gwas/docs/fileheaders#_file_headers_for_unpublished_studies>.
-    
-    How many different studies in the database study something to do with the thyroid? (use `str_detect` and `DISEASE/TRAIT` for this)\
-    How many of these studies reported no significant association for their `DISEASE/TRAIT`? (use `ASSOCIATION COUNT`)
-    
-4.  Using the GWAS data above, how many studies use at least 50,000 individuals in their `INITIAL SAMPLE SIZE`?\
-    Hint: you'll definitely need a regular expression for this and `str_extract` should be useful. Getting all the numbers from `INITIAL SAMPLE SIZE` is tricky so get the first one as a start. If you're interesting in a challenge, get all the numbers and check them.
-
-    
+Thursday...
