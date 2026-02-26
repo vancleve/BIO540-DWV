@@ -310,4 +310,35 @@ This is a good places to learn the basics too in a more fun way:
 
 # Lab ![](assets/beaker.png)
 
-Thursday...
+1.  Go to <https://regexcrossword.com/challenges/beginner>. Solve the first four puzzles and submit the answers to them in your qmd file.
+
+2.  Write your own 2x2 regex crossword in the style of the puzzles in problem #1. Provide the puzzle and solution.
+
+3.  Americans are well known to spell names in many different ways. The following dataset, `names2024`,
+    ```{r}
+    #| message: false
+    names2024 = read_csv("yob2024.txt", col_names = c("Name", "Sex", "Count"))
+    ```
+    comes from the [Social Security Administration](https://catalog.data.gov/dataset/baby-names-from-social-security-card-applications-state-and-district-of-columbia-data), and contains the number of babies born in 2024 with each name.
+    
+    Using a regular expression, how many babies born in 2024 were named **Caitlin** or variant of that spelling (e.g., Caityln)? 
+    
+4.  Use GWAS Catalog data for this problem, which you can load like this (uncomment and run the `download.file` code **once** to get the file into your folder):
+    ```{r}
+    #| message: false
+    # download.file("https://www.ebi.ac.uk/gwas/api/search/downloads/studies/v1.0.3.1", "gwas-catalog-v1.0.3.1-studies.tsv") 
+    gwas = read_tsv("gwas-catalog-v1.0.3.1-studies.tsv") |>
+      mutate(`INITIAL SAMPLE SIZE` = str_replace(`INITIAL SAMPLE SIZE`, "\\(.+\\)", ""))
+    ```
+    Unlike our previous GWAS data, these data are just the studies (not the individual SNPs) but they are all the studies in the database.\
+    For a description of the columns in this dataset, look here: <https://www.ebi.ac.uk/gwas/docs/fileheaders#_file_headers_for_unpublished_studies_v1_0_3_1>.
+    
+    If you look at the column `INITIAL SAMPLE SIZE`, you will see that it contains the number of cases and controls in the study but the numbers are buried in the text. We can use a regular expression to extract them. I'll provide the code that will extract the matches and convert them into numbers, sum them, and put them into a new column:
+    ```{r}
+    #| eval: false
+    gwas |> mutate(sample_size = map_vec(str_extract_all(`INITIAL SAMPLE SIZE`, "REGEX"), \(x) sum(parse_number(x)))) |> relocate(sample_size)
+    ```
+    You should take the above code and replace `"REGEX"` with a regular expression that captures numbers. For example the regular expression `"\\d{3},\\d{3}"` would capture numbers like 199,999 but not 1,999. You want to write a regular expression that captures numbers from 1 to millions. Use your regular expression and the above code to create a new `sample_size` column.
+    
+    Using this `sample_size` column, what is the `PUBMED ID` of the study with the largest sample size and what disease does it study?
+    
