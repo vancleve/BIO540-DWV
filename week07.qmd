@@ -306,7 +306,7 @@ There are a couple of nice websites that allow you to easily construct a regex p
 
 This is a good places to learn the basics too in a more fun way:
 
-- <https://regexcrossword.com/challenges/tutorial>
+- <https://regexcrossword.com/tutorial/1>
 
 # Lab ![](assets/beaker.png)
 
