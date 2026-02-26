@@ -2740,7 +2740,8 @@ character</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>names2024 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">&quot;yob2024.txt&quot;</span>, <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Count&quot;</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>comes from the <a href="https://catalog.data.gov/dataset/baby-names-from-social-security-card-applications-state-and-district-of-columbia-data">Social Security Administration</a>, and contains the number of babies born in 2024 with each name.</p>
-<p>Using a regular expression, how many babies born in 2024 were named <strong>Caitlin</strong> or variant of that spelling (e.g., Caityln)?</p></li>
+<p>Using a regular expression, how many babies born in 2024 were named <strong>Caitlin</strong> or variant of that spelling (e.g., Caityln)?<br>
+(note: your answer might be different from mine; get creative and see how many you can find)</p></li>
 <li><p>Use GWAS Catalog data for this problem, which you can load like this (uncomment and run the <code>download.file</code> code <strong>once</strong> to get the file into your folder):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># download.file(&quot;https://www.ebi.ac.uk/gwas/api/search/downloads/studies/v1.0.3.1&quot;, &quot;gwas-catalog-v1.0.3.1-studies.tsv&quot;) </span></span>

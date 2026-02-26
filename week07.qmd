@@ -321,7 +321,8 @@ This is a good places to learn the basics too in a more fun way:
     ```
     comes from the [Social Security Administration](https://catalog.data.gov/dataset/baby-names-from-social-security-card-applications-state-and-district-of-columbia-data), and contains the number of babies born in 2024 with each name.
     
-    Using a regular expression, how many babies born in 2024 were named **Caitlin** or variant of that spelling (e.g., Caityln)? 
+    Using a regular expression, how many babies born in 2024 were named **Caitlin** or variant of that spelling (e.g., Caityln)?\
+    (note: your answer might be different from mine; get creative and see how many you can find)
     
 4.  Use GWAS Catalog data for this problem, which you can load like this (uncomment and run the `download.file` code **once** to get the file into your folder):
     ```{r}
