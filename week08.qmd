@@ -1,7 +1,7 @@
 ---
 title: 'Introduction to plotting and `ggplot2`'
 author: "Jeremy Van Cleve"
-date: 15 10 2024
+date: 02 03 2026
 format: 
   html:
     self-contained: true
@@ -44,7 +44,7 @@ plot(gapminder$year, gapminder$lifeExp)
 
 You can modify the axis labels by adding the `xlab` and `ylab` arguments and give the plot a title with the `main` argument.
 ```{r}
-plottitle = "Life expectancy over time for all countries in the Gapminder data" # save space in the code
+plottitle = "Life expectancy over time in the Gapminder data" # save space in the code
 plot(gapminder$year, gapminder$lifeExp, 
      xlab = "Year", ylab = "Life expectancy", main = plottitle)
 ```
@@ -132,22 +132,22 @@ That was also very tedious. Not only that, notice that the y-axes have different
 
 The `ggplot2` package is built on the idea that graphics have can have a "grammar", or set or rules, that specifies how they can and should be constructed. Implementing these rules not only makes creating graphics easier, but it makes such graphics consistent and clear. Wickham borrows this idea from the book, "The Grammar of Graphics"" by Wilkinson, Anand, and Grossman (2005)[^1]. While this structure may seem a bit artificial at first, it makes creating graphics very modular and building up complex graphics much easier.
 
-To understand how `ggplot2` works, first consider how the following example replicates the life expectancy by year plot above:
+To understand how `ggplot2` works, first consider how the following example replicates the first life expectancy by year plot above:
 ```{r}
-library(ggplot2)
 ggplot(data = gapminder) + 
   geom_point(aes(x = year, y = lifeExp))
 ```
+(Note that we don't need to load the `ggplot2` library as it is already loaded as part of `library(tidyverse)` above.)
 
-The first line has the function `ggplot`, which creates a coordinate system for the plot that you can add "layers" to. The argument to `ggplot` indicates which dataset to use. 
+The first line above has the function `ggplot`, which creates a coordinate system for the plot that you can add "layers" to. The argument to `ggplot` indicates which dataset to use. 
 
-Adding layers is accomplished by "adding" to the base plot with **`+`** and additional features via additional functions. The first feature added above is `geom_point()`, which adds a layer of points and creates a scatter plot. `ggplot2` comes with many other "geometries", which are really just other kinds of visual objects, like lines and boxes.
+Adding layers is accomplished by "adding" to the base plot with **`+`** and additional features via additional functions. The first feature added above is `geom_point()`, which adds a layer of points and creates a scatter plot. `ggplot2` comes with many other "geometries", which are really just kinds of visual objects, like lines and boxes.
 
 Each `geom()` function takes a `mapping` argument that defines how variables map to the visual objects in the plot. The `mapping` argument is always paired with the `aes()` function, which stands for "aesthetics", and the `x` and `y` arguments of `aes()` specify which variables correspond to which axis.
 
 ## Aesthetic mapping with `aes()`
 
-In addition to the `x` and `y` axes, you can map variables to the color of the point. Above, you did this using the `country` variable. Now, repeat this with `ggplot()`.
+In addition to the `x` and `y` axes, you can map variables to the color of the point. Above, you did this using the `country` variable. Now, to repeat this with `ggplot()`, we can do
 ```{r}
 usukjpcn |> ggplot() + 
   geom_point(mapping = aes(x = year, y = lifeExp, color = country))
@@ -190,7 +190,7 @@ The only change you had to make was to change `geom_point` to `geom_line`, for a
 
 ## Facets
 
-Finally, `ggplot2` makes creating multiple plots very easy with "facets", which are just subplots that each correspond to a specific value of a variable or more generally to a specific subset of the data. To add facets in using `ggplot()`, you need the `facet_wrap()` or `facet_grid()` function. In the multiple plots created above with the basic graphics, the variable was country and each plot was the subset of data for each of the four countries. For example, with `ggplot()`,
+Finally, `ggplot2` makes creating multiple plots very easy with "facets", which are just subplots that each correspond to a specific value of a variable or more generally to a specific subset of the data. To add facets in `ggplot()`, you need the `facet_wrap()` or `facet_grid()` function. In the multiple plots created above with the base graphics, the variable was country and each plot was the subset of data for each of the four countries. For example, with `ggplot()`,
 ```{r}
 usukjpcn |> ggplot() + 
   geom_line(mapping = aes(x = year, y = lifeExp, color = country)) +
@@ -205,7 +205,7 @@ gapminder |> ggplot(aes(x = lifeExp, y = log10(gdpPercap))) +
   geom_point() +
   facet_wrap(vars(continent, year > 1990))
 ```
-Now, `facet_wrap` plots all the possible combinations of `continent` and `year > 1990`.
+Now, `facet_wrap` plots all the possible combinations of `continent` and `year > 1990`. Just like many other `dplyr` and `tidyverse` functions, `vars` let's us specify more than just a variable; rather, we can use an expression with a variable like `year > 1990`.
 
 For two different variables in the facets, you can make a grid of plots with `facet_grid` where the values of one variable change along the rows of the grid and the values of the other variable change along the columns. For example, changing the above plot of `lifeExp` vs `log10(gdpPercap)` with `continent` and `year > 1990` as facets to `facet_grid` yields
 ```{r}
@@ -238,44 +238,4 @@ We've used a histogram now to count the fraction of times each expression value 
 
 # Lab ![](assets/beaker.png)
 
-1.  Use the GWAS data (`gwas_catalog_v1.0.2-associations_e104_r2021-09-23_no-waist_hip_body_blood_education_math_top100.tsv`): 
-    - Create a plot with `ggplot()` that shows the `PVALUE_MLOG` as a function of `CHR_POS` for **two** different values of `DISEASE/TRAIT` (pick your favorites!)
-    - Make the points for each disease/trait a different color
-
-2.  Use the `gapminder` data:
-    - Create a line plot with `ggplot()` that shows life expectancy on the y-axis and time on the x-axis.
-    - Make each line represent a **country**   
-      (hint: look here: <https://ggplot2.tidyverse.org/reference/aes_group_order.html> to learn how to group the data appropriately)
-    - Color each line by the **continent**
-    - Make points whose size is proportional to GDP per capita (variable `gdpPercap`)
-    
-3.  Create a plot like the one in Problem 2
-    - Except, the new plot has multiple subplots where each subplot is a different continent. 
-    - No need to color by continent though.
-    - Instead, color the points red where countries at that year had greater than 50 million people.  
-      (hint: try to use Google for help here. there are multiple ways to do this too :-) )
-      
-4.  We'll use a CDC dataset on COVID-19 mortality from here:\
-    <https://data.cdc.gov/Public-Health-Surveillance/Monthly-COVID-19-Death-Rates-per-100-000-Populatio/exs3-hbne/about_data>\
-    It has mortality rates per 100k people in the `crude_rate` column and demographic groups in the `subgroup1` and `subgroup2` columns.\
-    ```{r}
-    #| message: false
-    library(RSocrata)
-    covid = read.socrata("https://data.cdc.gov/api/odata/v4/exs3-hbne")
-    ```
-    The kind of demographic information for each row of the table is in the `group` column. You should see what the distinct values of `group` are and what the values are for `subgroup1` and `subgroup2` to understand better the demographic category of each row. Be careful to filter using an appropriate `group` value for each part of the problem below.
-    
-    - Make a point plot of the covid death rate in `crude_rate` vs the date for the years 2020-2021.\
-      Use `facet_wrap` to make this a set of plots for each **age group** in the data.\
-      Hint: use the `year` function to more easily filter the rows.\
-      Hint: filter by `group` to get the right subset of rows.
-    - Make a point plot of the covid death rate in `crude_rate` vs the date for 2020-2021.\
-      Use `facet_wrap` to make a set of plots for each **race/ethnicity** value in the data.\
-      Think carefully about what might **not** be included in these data that might explain any differences you see between these groups.
-    - Make a point plot of the covid death rate in `crude_rate` vs the date for 2020-2021.\
-      Use `facet_grid` to make a grid of plots for each combination of **age** and **race/ethnicity** value.\
-      Hint: filter by `group` first to get the right subset of data (there will be two different groups that yield the same data).
-    - +3 points: make a version of the `facet_grid` plot above where there is a separate colored points for each `jurisdiction_residence`.\
-      See here for what states belong to which region: <https://www.hhs.gov/about/agencies/iea/regional-offices/index.html>
-    
-    
+Thursday...
