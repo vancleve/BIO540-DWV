@@ -238,8 +238,6 @@ We've used a histogram now to count the fraction of times each expression value 
 
 # Lab ![](assets/beaker.png)
 
-gwas_cancer = read_tsv("gwas-catalog-v1.0-associations-e115-r2026-01-19-cancer.tsv", col_types = cols(CHR_POS = col_number()))
-
 1.  Use the GWAS cancer data (`gwas-catalog-v1.0-associations-e115-r2026-01-19-cancer.tsv`): 
     - Create a plot with `ggplot()` that shows the `PVALUE_MLOG` as a function of `CHR_POS` for **two** different values of `DISEASE/TRAIT` (pick your favorites!)
     - Make the points for each disease/trait a different color
