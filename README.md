@@ -333,7 +333,7 @@ as the semester progress.
 | 6 | 02/17 & 02/19 | Joins and databases | [html](https://vancleve.github.io/BIO540-DWV/week06.html) |
 | 7 | 02/24 & 02/26 | Text manipulation and regular expressions | [html](https://vancleve.github.io/BIO540-DWV/week07.html) |
 | 8 | 03/03 & 03/05 | Introduction to plotting and ggplot2 | [html](https://vancleve.github.io/BIO540-DWV/week08.html) |
-| 9 | 03/10 & 03/12 | Plot types in ggplot2 |  |
+| 9 | 03/10 & 03/12 | Plot types in ggplot2 | [html](https://vancleve.github.io/BIO540-DWV/week09.html) |
 |  | 03/17 & 03/19 | **Spring Break** |  |
 | 10 | 03/24 & 03/26 | Principles of displaying data & how to modify plots |  |
 | 11 | 03/31 & 04/02 | Colors and heat maps |  |

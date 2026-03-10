@@ -1,7 +1,7 @@
 ---
-title: 'More `ggplot2`: plot types'
+title: 'Plot types in `ggplot2`'
 author: "Jeremy Van Cleve"
-date: 22 10 2024
+date: 10 03 2026
 format: 
   html:
     self-contained: true
@@ -30,24 +30,26 @@ We'll work with COVID-19 weekly rates (per 100k people) of laboratory-confirmed 
 ```{r}
 #| message: false
 library(tidyverse)
-library(RSocrata) 
+library(socratadata)
 
 # Read in data and clean up some stuff
-covid_net_hosps = read.socrata("https://data.cdc.gov/api/odata/v4/6jg4-xsqq") |> 
+covid_net_hosps = soc_read("https://data.cdc.gov/api/odata/v4/6jg4-xsqq") |> 
   as_tibble() |>
-  rename(weekenddate = X_weekenddate, age = agecategory_legend, sex = sex_label, race = race_label) |>
-  mutate(weekenddate = ymd(weekenddate)) |>
-  arrange(weekenddate) |>
-  mutate(month = factor(months(weekenddate), 
+  filter(!is.na(state), state != "All", state != "COVID-NET") |>
+  rename(age = agecat_label, sex = sex_label, race = race_label) |>
+  mutate(week_ending_date = ymd(week_ending_date), weekly_rate = parse_number(weekly_rate), cumulative_rate = parse_number(cumulative_rate)) |>
+  arrange(week_ending_date) |>
+  mutate(month = factor(months(week_ending_date), 
                         levels = c("January", "February", "March", "April", "May", "June", 
-                                   "July", "August", "September", "October", "November", "December")))
+                                   "July", "August", "September", "October", "November", "December"))) |>
+  relocate(month, .after = week_ending_date)
 ```
 Let's work on a slice of these data with just the cases in Colorado, Georgia, and Tennessee for 2021:
 ```{r}
 co_ga_tn_cases_2021 = 
   covid_net_hosps |>
-  filter(state %in% c("Colorado", "Georgia", "Tennessee")) |>
-  filter(year(weekenddate) == 2021)
+  filter(state %in% c("CO", "GA", "TN")) |>
+  filter(year(week_ending_date) == 2021)
 
 co_ga_tn_cases_2021
 ```
@@ -59,7 +61,7 @@ In previous weeks, you have produced simple scatter and line plots. With these t
 ```{r}
 co_ga_tn_plot = co_ga_tn_cases_2021 |> 
   filter(age == "All", race == "All", sex == "All") |>
-  ggplot(aes(x=weekenddate, y=weeklyrate, color=state))
+  ggplot(aes(x=week_ending_date, y=weekly_rate, color=state))
 co_ga_tn_plot + geom_point()
 ```
 We can produce a line through the points by adding `geom_line`.
@@ -107,7 +109,7 @@ If your data has discrete categories (i.e., "categorical" data), then you may wa
 covid_net_hosps_exceed_50_per_100k = 
   covid_net_hosps |>
   filter(age == "All", race != "All", sex == "All") |>
-  mutate(exceed_50_per_100k = weeklyrate >= 50) |>
+  mutate(exceed_50_per_100k = weekly_rate >= 50) |>
   filter(exceed_50_per_100k == TRUE)
 
 covid_net_hosps_exceed_50_per_100k
@@ -157,14 +159,14 @@ To get a histogram, we use the `geom_histogram` function. We can for example loo
 covid_net_hosps |> 
   filter(age == "All", race != "All", sex == "All") |>
   ggplot() +
-  geom_histogram(aes(x = weeklyrate))
+  geom_histogram(aes(x = weekly_rate))
 ```
 With a distribution that falls off quickly after a big spike, it can useful to put the y-axis on a log10 scale.
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race != "All", sex == "All") |>
   ggplot() +
-  geom_histogram(aes(x = log10(1 + weeklyrate)))
+  geom_histogram(aes(x = log10(1 + weekly_rate)))
 ```
 
 You can add additional information, like the race/ethnic category.
@@ -172,7 +174,7 @@ You can add additional information, like the race/ethnic category.
 covid_net_hosps |> 
   filter(age == "All", race != "All", sex == "All") |>
   ggplot() +
-  geom_histogram(aes(x = log10(1 + weeklyrate), fill=race))
+  geom_histogram(aes(x = log10(1 + weekly_rate), fill=race))
 ```
 
 This defaults to a stacked histogram, so switch to `identity` to better see how the two sample size categories compare (using `alpha` to get some transparency).
@@ -180,14 +182,14 @@ This defaults to a stacked histogram, so switch to `identity` to better see how 
 covid_net_hosps |> 
   filter(age == "All", race != "All", sex == "All") |>
   ggplot() +
-  geom_histogram(aes(x = log10(1 + weeklyrate), fill=race), position = "identity", alpha = 0.5)
+  geom_histogram(aes(x = log10(1 + weekly_rate), fill=race), position = "identity", alpha = 0.5)
 ```
 But maybe thats too much data to stack together, so let's just compare "White, non-Hispanic" and "Black, non-Hispanic"
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race == "Black, non-Hispanic" | race == "White, non-Hispanic", sex == "All") |>
   ggplot() +
-  geom_histogram(aes(x = log10(1 + weeklyrate), fill=race), position = "identity", alpha = 0.5)
+  geom_histogram(aes(x = log10(1 + weekly_rate), fill=race), position = "identity", alpha = 0.5)
 ```
 Now we can see how Black folks have been hit harder in these regions but also how some of these regions have fewer Black folks, which likely causes the spike at zero.
 
@@ -196,7 +198,7 @@ You can just draw lines instead of filled bars using `geom_freqpoly()`
 covid_net_hosps |> 
   filter(age == "All", race == "Black, non-Hispanic" | race == "White, non-Hispanic", sex == "All") |>
   ggplot() +
-  geom_freqpoly(aes(x = log10(1 + weeklyrate), color=race))
+  geom_freqpoly(aes(x = log10(1 + weekly_rate), color=race))
 ```
 
 You might have noticed that R keeps reminding you to adjust the `binwidth`. This is simply the width of the bins on the x-axis. For example, a binwidth of 0.2 makes a smooth histogram.
@@ -204,7 +206,7 @@ You might have noticed that R keeps reminding you to adjust the `binwidth`. This
 covid_net_hosps |> 
   filter(age == "All", race == "Black, non-Hispanic" | race == "White, non-Hispanic", sex == "All") |>
   ggplot() +
-  geom_freqpoly(aes(x = log10(1 + weeklyrate), color=race), binwidth = 0.2)
+  geom_freqpoly(aes(x = log10(1 + weekly_rate), color=race), binwidth = 0.2)
 ```
 
 Suppose that you want to smooth the above plot so that it looks like some continuous distribution. The statistical method used to do this is called a "kernel density estimate" or KDE. Essentially, a basic KDE tries to combine Gaussian distributions together in a way to approximate empirical distribution. Its basically the continuous version of a historgram (which has discrete bins). The geometry function to use for a KDE is `geom_density`.
@@ -212,7 +214,7 @@ Suppose that you want to smooth the above plot so that it looks like some contin
 covid_net_hosps |> 
   filter(age == "All", race == "Black, non-Hispanic" | race == "White, non-Hispanic", sex == "All") |>
   ggplot() +
-  geom_density(aes(x = log10(1 + weeklyrate), fill = race), alpha = 0.3)
+  geom_density(aes(x = log10(1 + weekly_rate), fill = race), alpha = 0.3)
 ```
 Notice how the y-axis has a different scale now. This is because the area under the curve of the KDE must sum to one and the y-axis measures the density, or approximately the probability, of a specific log10 number of cases per 100k. The histogram can be normalized too by dividing each curve by the total number of days in the dataset.
 
@@ -223,7 +225,7 @@ Suppose now that you want to plot the distribution of the hospitalization rates 
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
   ggplot() +
-  geom_histogram(aes(x = log10(1 + weeklyrate), fill = state), alpha = 0.3)
+  geom_histogram(aes(x = log10(1 + weekly_rate), fill = state), alpha = 0.3)
 ```
 
 This many states stacked on one another is probably too many to make the graph very readable. You need a more condensed way to plot the distribution for each state. First, you can just plot the points directly.
@@ -231,7 +233,7 @@ This many states stacked on one another is probably too many to make the graph v
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
   ggplot() +
-  geom_point(aes(x = state, y = log10(1 + weeklyrate))) + 
+  geom_point(aes(x = state, y = log10(1 + weekly_rate))) + 
   coord_flip()
 ```
 
@@ -239,7 +241,7 @@ This is better, but many of the points overlap. To get around this, you can use 
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
-  ggplot(aes(x = state, y = log10(1 + weeklyrate))) +
+  ggplot(aes(x = state, y = log10(1 + weekly_rate))) +
   geom_jitter(alpha = 0.5) +
   coord_flip()
 ```
@@ -251,7 +253,7 @@ For the data on hospitalization rate per 100k for each state, the box plots are:
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
-  ggplot(aes(x = state, y = log10(1 + weeklyrate))) +
+  ggplot(aes(x = state, y = log10(1 + weekly_rate))) +
   geom_boxplot() +
   coord_flip()
 ```
@@ -260,7 +262,7 @@ The box plots make it much easier to see the central tendency (median) as well a
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
-  ggplot(aes(x = state, y = log10(1 + weeklyrate))) +
+  ggplot(aes(x = state, y = log10(1 + weekly_rate))) +
   geom_boxplot(outlier.color = "red") +
   coord_flip()
 ```
@@ -269,7 +271,7 @@ It's easier to read the box plots if they are organized by the median value. To 
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
-  ggplot(aes(x = reorder(state, weeklyrate, FUN = median), y = log10(1 + weeklyrate))) +
+  ggplot(aes(x = reorder(state, weekly_rate, FUN = median), y = log10(1 + weekly_rate))) +
   geom_boxplot(outlier.color = "red") +
   coord_flip()
 ```
@@ -287,39 +289,11 @@ Finally, a variant of the box plot is called a "violin plot". Violin plots show 
 ```{r}
 covid_net_hosps |> 
   filter(age == "All", race == "All", sex == "All") |>
-  ggplot(aes(x = reorder(state, log10(1 + weeklyrate), FUN = median), y = log10(1 + weeklyrate))) +
+  ggplot(aes(x = reorder(state, log10(1 + weekly_rate), FUN = median), y = log10(1 + weekly_rate))) +
   geom_violin() +
   coord_flip()
 ```
 
 # Lab ![](assets/beaker.png)
 
-### Problems
-
-1. Use the `gapminder` data (`library(gapminder)`):
-    - Create a box plot where the x-axis is `year` and each box plot shows the distribution of life expectancy for each year.
-    - Add points with jitter on top of the box plot with the color according to continent.
-
-2. Use the `gapminder` data:
-    - Plot life expectancy on the x-axis and GDP per capita on the y-axis (plot the points).
-    - Add a regression line (without confidence interval) for **each continent** where each line is colored by continent.
-    - You may use any regression method you prefer.
-
-3. Use the imprinting data from Babak et al. (2015) (`babak-etal-2015_imprinted-mouse_tidy.csv`):
-    - Plot the distribution of gene expression values that are positive (expression from the paternal chromosome) and the distribution of expression values that are negative (expression from the maternal chromosome) on the same plot.
-    - Choose your favorite plot type for this question (histogram or KDE).
-    
-4.  Use the following CDC COVD-19 death data for this problem. It comes from the CDC WONDER database (<https://wonder.cdc.gov/>).
-    ```{r}
-    cdc_data = read_tsv("cdc_covid19_mort_rates_state-age-sex_2020-2023.tsv")
-    ```
-    Create boxplots of the deaths per 100k for each age group in the data with the following features
-    - Use `cood_flip` to have the age groups on the y-axis and the deaths on the x-axis
-    - Order the boxplots by the ages from youngest to oldest.
-    - Use `facet_grid` to make a grid of these plots with `Gender` across the columns and the year down the rows (hint: use the `year` function on the `Date`)
-    
-5.  Use CDC data from above. 
-    - Plot the `Deaths_per_100k` over time for each different age group using `facet_wrap`\
-      (**first sum over both genders and all states** to get a single rate for each age group and date). 
-    - Order the plots by age group from youngest to oldest.
-    - What is most notable in the 2020 and 2021 years compared to seasonal flu, which tends to have a single peak in intensity in the winter?
+Thursday...
