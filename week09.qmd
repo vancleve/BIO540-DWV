@@ -314,15 +314,15 @@ covid_net_hosps |>
     
 4.  Use the following CDC COVD-19 death data for this problem. It comes from the CDC WONDER database (<https://wonder.cdc.gov/>).
     ```{r}
-    cdc_data = read_tsv("cdc_covid19_mort_rates_state-age-sex_2020-2023.tsv")
+    cdc_data =
+    read_tsv("cdc_covid19_mort_rates_state-age-sex_2020-2023.tsv") |>
+    mutate(Age = fct_relevel(Age, "< 1 year", "1-4 years", "5-14 years", "15-24 years", "25-34 years", "35-44 years", "45-54 years", "55-64 years", "65-74 years", "75-84 years", "85+ years"))
     ```
     Create boxplots of the deaths per 100k for each age group in the data with the following features
     - Use `cood_flip` to have the age groups on the y-axis and the deaths on the x-axis
-    - Order the boxplots by the ages from youngest to oldest.
     - Use `facet_grid` to make a grid of these plots with `Gender` across the columns and the year down the rows (hint: use the `year` function on the `Date`)
     
 5.  Use CDC data from above. 
     - Plot the `Deaths_per_100k` over time for each different age group using `facet_wrap`\
       (**first sum over both genders and all states** to get a single rate for each age group and date). 
-    - Order the plots by age group from youngest to oldest.
-    - What is most notable in the 2020 and 2021 years compared to seasonal flu, which tends to have a single peak in intensity in the winter?
+    - What is most notable in the 2020-2022 years compared to seasonal flu, which tends to have a **single peak** in intensity in the winter?
