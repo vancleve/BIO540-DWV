@@ -1,7 +1,7 @@
 ---
 title: 'Principles of displaying data & how to modify plots'
 author: "Jeremy Van Cleve"
-date: 31 10 2024
+date: 24 03 2026
 format: 
   html:
     self-contained: true
@@ -109,7 +109,9 @@ plot_deaths75to84_ky_ny_fl = cdc_data |>
   filter(Age == "75-84 years") |>
   filter(State %in% c("Kentucky", "New York", "Florida")) |>
   ggplot(aes(x=Date, y=Deaths_per_100k, color=State))
-plot_deaths75to84_ky_ny_fl + geom_point(alpha = 0.3) + 
+
+plot_deaths75to84_ky_ny_fl + 
+  geom_point(alpha = 0.3) + 
   geom_smooth(lwd = 0.5, span = 0.1) +
   labs(title = "COVID-19 Deaths ages 75-84")
 ```
@@ -164,6 +166,19 @@ plot_deaths75to84_ky_ny_fl + geom_point(alpha = 0.3) +
 
 You can see in the above that you actually need to create a new data table for the text annotations that has the right names for the x and y variables. This is because `ggplot2` **only** understands how to plot dataframes, not other things. This is both the source of its power and limitations. Thus, to put labels on plots with dates on the x-axis, we have to create a data frame with dates as the location we want the text. Likewise, we have to give the y-value as deaths per 100k.
 
+You might notice that the `geom_text`s are located right on top of the points they are meant to label. In other words, the text is centered both horizontally and vertically over the location of the point. This can be modified with by changing the "justification" in reference to the (x,y) location of the point you specify. You can set the vertical (`vjust`) and horizontal (`hjust`) justication above using the options below.
+
+![Combinations of horizontal and vertical justification options](assets/just.png){width=50%}
+
+By using `vjust = 'bottom'` and `hjust = 'center'`, we can put the text centered horizontally and above the points. Moreover, we can add `nudge_y = 10` to lift the text a little bit too (`nudge_x` likewise moves the label in the `x` direction):
+```{r}
+plot_deaths75to84_ky_ny_fl + geom_point(alpha = 0.3) + 
+  geom_smooth(lwd = 0.5, span = 0.1) +
+  labs(title = "COVID-19 Deaths ages 75-84", x = "Date", y = "Deaths per 100k persons", color = "State") +
+  geom_text(aes(label = c("Florida max", "New York max", "Kentucky max")), data = maxdeaths_ky_ny_fl, show.legend = FALSE, vjust = 'bottom', hjust = 'center', nudge_y = 10)
+```
+
+Say that say we wanted a more generic annotation located somewhere in the middle of the plot. We now know that we could do that by creating a small data frame like so
 ```{r}
 #| message: false
 label = tibble(Date = ymd("2022-01-01"), Deaths_per_100k = 250, label = "This is a label in the middle of the plot")
@@ -173,10 +188,13 @@ plot_deaths75to84_ky_ny_fl + geom_point(alpha = 0.3) +
   labs(title = "COVID-19 Deaths ages 75-84", x = "Date", y = "Deaths per 100k persons", color = "State") +
   geom_text(aes(label = label), data = label, vjust = "bottom", hjust = "center", color = "black", show.legend = FALSE)
 ```
-
-The text has a "justification" in reference to the (x,y) location of the point you specify. You can set the vertical (`vjust`) and horizontal (`hjust`) justication above using the options below. By setting "bottom" and "center" as above, the coordinate is at the bottom and in the center of the text, which means the text is centered above the point.
-
-![Combinations of horizontal and vertical justification options](assets/just.png)
+However, `ggplot` does give a litte convenience function called `annotate` so that we do not have to create a new data frame. We simply give `annotate` the `x` and `y` axis values where we want the annotate directly. 
+```{r}
+plot_deaths75to84_ky_ny_fl + geom_point(alpha = 0.3) + 
+  geom_smooth(lwd = 0.5, span = 0.1) +
+  labs(title = "COVID-19 Deaths ages 75-84", x = "Date", y = "Deaths per 100k persons", color = "State") +
+  annotate(geom = "text", x = ymd("2022-01-01"), y = 250, label = "This is a label in the middle of the plot", vjust = "bottom", hjust = "center", color = "black")
+```
 
 ## Coordinate systems
 
@@ -321,30 +339,4 @@ The theme is meant to work well with saving figures (coming in another class ses
 
 # Lab ![](assets/beaker.png)
 
-1.  Create a plot of per capita deaths over time using the `cdc` COVID-19 dataset below
-    ```{r}
-    #| message: false
-    cdc_data = read_tsv("cdc_covid19_mort_rates_state-age-sex_2020-2023.tsv")
-    ```
-    a. Filter the data to three states of your choice.
-    b. Filter the data to two age groups of your choice and use `facet_grid` to create four subplots, one for each combination of `Age` and `Gender`.
-    c. For each plot, use color to denote each state in the plot.
-    d. Use the `labs` function to add x and y labels.
-    e. Add `geom_text` annotation for the days with the highest death counts for each 
-    f. Rotate the x-axis tick labels vertically using the `guides` function (see <https://ggplot2-book.org/scales-position#sec-guide-axis> for more info).
-
-2.  Create a plot from any of the datasets we have used previously that includes the following
-    a. Use color to represent the value of some variable in the data.
-    b. Descriptive labels for the axes and title
-    c. Appropriate tick mark breaks and labels (only if defaults are bad)
-    d. Non-ggplot2 default theme (pick your favorite)
-    e. Bonus 1 point: change color of the x and y tick labels to blue.
-
-3.  Describe what might be wrong with the figure below in terms of the design principles discussed this week.
-    ![Chart Junk](assets/time_chart.jpg)
-    
-4.  Find a figure in a scientific paper in your field that you think is poorly designed (e.g., chart junk).
-    a. Save the figure and include it as a .jpg or .png with your .qmd and load the figure into your .qmd file as an image.
-    b. Describe what is wrong with the figure using graphics principles discussed this week.
-    c. Describe how you would fix the figure.
-    d. Bonus 4 points: load in the data and actually fix the figure!
+Thursday...
