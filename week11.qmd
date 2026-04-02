@@ -346,8 +346,6 @@ One word of warning here is that saving a heat map as a ".pdf" may still result 
 
 ### Problems
 
-### Problems
-
 1.  Create a heat map of the Babak et al. imprinting data:
     ```{r}
     #| eval: false
