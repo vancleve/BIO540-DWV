@@ -266,7 +266,7 @@ written in `RMarkdown`, which is a predecessor and alternative to
 `Quarto`) that cover much of the material in the course.
 
 - Wickham, Hadley, Grolemund, Garrett, and Mine Çetinkaya-Rundel. 2023.
-  R for Data Science (2e). O’Reilly. \< https://r4ds.hadley.nz/\>
+  R for Data Science (2e). O’Reilly. <https://r4ds.hadley.nz/>
 - Wilke, Claus O. 2018. Fundamentals of Data Visualization.
   <https://clauswilke.com/dataviz/>
 - Healy, Kieran. 2018. Data Visualization: A Practical Introduction.
@@ -337,7 +337,7 @@ as the semester progress.
 |  | 03/17 & 03/19 | **Spring Break** |  |
 | 10 | 03/24 & 03/26 | Principles of displaying data & how to modify plots | [html](https://vancleve.github.io/BIO540-DWV/week10.html) |
 | 11 | 03/31 & 04/02 | Colors and heat maps | [html](https://vancleve.github.io/BIO540-DWV/week11.html) |
-| 12 | 04/07 | Visualizing/analyzing lots of data |  |
+| 12 | 04/07 | Visualizing/analyzing lots of data | [html](https://vancleve.github.io/BIO540-DWV/week12.html) |
 |  | 04/09 | **No class: JVC guest lecture** |  |
 | 13 | 04/14 | Networks |  |
 |  | 04/16 | **No class: JVC traveling** |  |

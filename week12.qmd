@@ -1,7 +1,7 @@
 ---
 title: 'Visualizing lots of data'
 author: "Jeremy Van Cleve"
-date: 19 11 2024
+date: 07 04 2026
 format: 
   html:
     self-contained: true
@@ -47,12 +47,16 @@ glimpse(blue_jays)
 There are 123 individuals in this dataset and the variables include bill depth, width, length, head size, mass, sex, etc. If we wanted to see how head size and body mass correlate, we could simply do a scatter plot.
 
 ```{r}
-blue_jays |> ggplot(aes(x=Mass, y=Head)) + geom_point()
+blue_jays |> 
+  ggplot(aes(x = Mass, y = Head)) + 
+  geom_point()
 ```
 
 It looks like head size and mass correlate positively, which makes sense. We know there are males and females, so we can add another variable by coloring the points by sex.
 ```{r}
-blue_jays |> ggplot(aes(x=Mass, y=Head)) + geom_point(aes(color=KnownSex))
+blue_jays |> 
+  ggplot(aes(x = Mass, y = Head)) + 
+  geom_point(aes(color = KnownSex))
 ```
 
 ## Grids of plots
@@ -68,19 +72,22 @@ usukjpcn = filter(gapminder,
             | country == "Japan" 
             | country == "China" )
 
-ggplot(data = usukjpcn) + 
+usukjpcn |>
+  ggplot() + 
   geom_line(mapping = aes(x = year, y = lifeExp, color = country)) +
-  facet_wrap(~ country)
+  facet_wrap(vars(country))
 ```
 
 We first wrote `ggplot` commands like we wanted to plot `year` vs `lifeExp`. Then, we used the `facet_wrap` function and told it we wanted a plot for each distinct value of the `country` variable. The output was then four plots, one for each country, with the same x- and y-axis. This kind of setup actually only plots three variables, `year`, `lifeExp`, and `country`, and does not do a scatter plot for each pair of variable. However, with a little data wrangling, we can create a new data table that will work with `facet_grid`. 
 
 Looking at the example above, we can surmise that `facet_wrap` and `facet_grid` generate multiple plots with the same x- and y-axis. Thus, if we would a grid of plots where each plot has a different combination of variables for the x- and y-axis, then we need to collapse our data for the different morphological measurements into two sets of two columns, one set for the variables that will go on the x-axis and one set for the variables that will go on the y-axis. Recall from our lecture on tidying data that we can do this with `pivot_longer`.
 ```{r}
-bgx = blue_jays |> select(BirdID, KnownSex, Head, Mass, Skull) |>
+bgx = blue_jays |> 
+  select(BirdID, KnownSex, Head, Mass, Skull) |>
   pivot_longer(Head:Skull, names_to = "var_x", values_to = "val_x")
 
-bgy = blue_jays |> select(BirdID, KnownSex, Head, Mass, Skull) |>
+bgy = blue_jays |> 
+  select(BirdID, KnownSex, Head, Mass, Skull) |>
   pivot_longer(Head:Skull, names_to = "var_y", values_to = "val_y")
 
 bgx
@@ -121,16 +128,15 @@ However, even with standard `ggplot`, we can still get more than 1/2 to what thi
 Recall that the blue jay dataset has more than just the three variables above. What if it had 10 more variables? Or 100 more? We couldn't easily interpret a 100x100 grid of scatter plots to understand how the variables relate to one another or whether there are different patterns for males and females. A very useful statistical tools used in these circumstances is called a *principal component analysis*, which is a type of *dimensionality reduction*. Dimensionality reduction uses the fact that there are often lots of correlations in high-dimensional data and thus there are "effectively" many fewer important dimensions that capture the independent variation of the whole dataset. For example, in the blue jay morphology data, we can see that many body measures are positively correlated. Thus, if we know just body mass, we can make a good guess about what head size or skull size might be. We could even do a linear regression of head size against body mass and skull size against body mass and then use body mass to predict both of those variables. If we do this kind of linear analysis, adding together variables and weighting them with coefficient, and make sure the weight sum of variables explains as much variation in the data as possible, we end up with a PCA. A PCA not only gives you a new variable that explains a lot of variation, it also gives you as many new variables as you had old variables where each new one after the first explains less variation in the data than the new variable before it. 
 
 Let's see an example of PCA. We can use the `prcomp` function in R to generate the principal components.
-
 ```{r}
-bpca = blue_jays |> select(-BirdID, -KnownSex, -Sex) |> prcomp()
+bpca = blue_jays |> 
+  select(-BirdID, -KnownSex, -Sex) |> 
+  prcomp()
 
 cbind(blue_jays, bpca$x) |> ggplot(aes(x=PC1, y=PC2)) + 
   geom_point(aes(color=KnownSex))
 ```
-
 This plot shows all the bird samples plotted on the two first principal components. You can immediately see that males and females are roughly two different clouds of points, which accords with our prior knowledge that the sexes differ in body morphology. To see how much of the variance each PC explains, we look at the `summary`.
-
 ```{r}
 summary(bpca)
 ```
@@ -142,10 +148,10 @@ This shows that the first PC is mostly body mass and that other variables are al
 
 ```{r}
 as_tibble(bpca$rotation) |> 
-  mutate(feature=rownames(bpca$rotation)) |> 
-  ggplot(aes(x=PC1, y=PC2)) + 
-  geom_point(aes(color=feature), show.legend = FALSE) + 
-  geom_text(aes(label=feature), size=3, position=position_jitter(width=0.05,height=0.05))
+  mutate(feature = rownames(bpca$rotation)) |> 
+  ggplot(aes(x = PC1, y = PC2)) + 
+  geom_point(aes(color = feature), show.legend = FALSE) + 
+  geom_text(aes(label = feature), size = 3, position = position_jitter(width = 0.01, height = 0.05))
 ```
 
 This just shows that mass dominates PC1 whereas PC2 measures how the rest of the variables all negatively correlate with mass once you take into account PC1.
@@ -170,13 +176,10 @@ as_tibble(ipca$x) |>
 ```
 
 We can see from the PCA that some tissues group together naturally (brain tissues) and others not as much. This could be the beginning of an investigation about whether there are biological reasons these other tissues groups the way they do. We can use summary to see how strong the first few PCs are.
-
 ```{r}
 summary(ipca)
 ```
-
 The first PC only captures 21% of the variance and the second captures 12%. Thus, we need more the PCs in this dataset to describe a significant amount of the variance. Finally, we can plot how the genes make up the first two PCs. Then, we could use this information to see if the biological function of these genes explains how the tissues group along PC1 and PC2.
-
 ```{r}
 as_tibble(ipca$rotation) |> 
   add_column(gene = rownames(ipca$rotation), .before = 1) |>
@@ -200,25 +203,4 @@ These have some advantages in terms of their visual appeal, but they should be u
 
 ### Problems
 
-1.  Using the `gapminder` data:
-    - Perform a principal components analysis using the variables `lifeExp`, `year`, `pop`, and `gdpPercap`. 
-    - Plot all the points on a scatter plot with the the x- and y-axis corresponding to the first two principal components (PC1 and PC2). 
-    - Color the points according to `year`. Set the shape of the point (square, circle, etc) according to `continent`.
-    - What patterns do you observe if any?
-
-2.  For this question, we will use genetic data from a few European populations gathered as part of the CEPH-Human Genome Diversity Panel. A little more information on the data can be found here: <https://github.com/NovembreLab/HGDP_PopStruct_Exercise/blob/master/PopGenWorkshop.pdf>. The file can be loaded using the code below. The `ID` column is an identifying string for the individual, the `Group` column gives the individual's geographic ancestry, and the remaining columns are SNPs.
-    ```{r}
-    hgdp = read_csv("H938_Euro.LDprune.csv")
-    ```
-    - Perform a PCA on the SNPs.
-    - Plot all the individuals using the first two principle components.
-    - Color the individuals according to `Group`.
-    - Which PC corresponds to a more north-south axis and which one to a more east-west axis?
-    
-3.  The scatter plot grid we created for the blue jay data had many extraneous plots (the diagonal plots and two copies of each plot, x vs y and then y vs x). There were only three scatter plots that we really needed from that 3x3 grid. Using `facet_wrap`, we can plot only these three plots. 
-    - Begin with the `bg` data table that we used that contains the `var_x`, `var_y`, `val_x`, and `val_y` columns.
-    - Create one new column that contains the x,y variable combo for each scatter plot.
-    - Use `filter` to get only the rows that correspond to the three variable combinations you need.
-    - Create scatter plots using `facet_wrap` on the new column you created.
-    - +2 points: use `labeller` in `facet_wrap` to add the correct x and y axis labels for each plot.
-    
+Posted Thursday...

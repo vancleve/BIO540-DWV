@@ -1,7 +1,7 @@
 ---
 title: 'Networks'
 author: "Jeremy Van Cleve"
-date: 26 11 2024
+date: 14 04 2026
 format: 
   html:
     self-contained: true
@@ -41,7 +41,7 @@ Biologists have found tremendous use for networks from gene regulatory and co-ex
 ```{r}
 #| message: false
 #| fig-cap: "Regulatory relationships in E. coli extracted from the RegulonDB database, see Kolaczyk and Csárdi, 2020, p. 121 [^1]"
-library(sand)
+library(sand) # package the accompanies the book ‘Statistical Analysis of Network Data with R, 2nd Edition’ from Kolaczyk and Csárdi, 2020
 data(Ecoli.data)
 
 g.regDB <- graph_from_adjacency_matrix(regDB.adj, "undirected")
@@ -67,7 +67,7 @@ Networks are also called "graphs" (i.e., "graph theory" in mathematics) and crea
 ```{r}
 library(igraph)
 
-g1 = graph(edges = c(1,2, 2,3, 3,4, 4,2), directed = FALSE)
+g1 = make_graph(edges = c(1,2, 2,3, 3,4, 4,2), directed = FALSE)
 plot(g1)
 
 g2 = graph.formula(1-2, 2-3, 3-4, 4-2)
@@ -218,31 +218,34 @@ The most common quantitative measure of a network is its **degree distribution**
 #| message: false
 degree(mg)
 
-data.frame(degree = degree(mg)) %>% 
+tibble(degree = degree(mg)) |>
   ggplot() + 
   geom_histogram(aes(x = degree)) +
   geom_vline(xintercept = mean(degree(mg))) + 
-  geom_text(data=tibble(degree=mean(degree(mg))+2, count=9, label="mean"), mapping = aes(x=degree, y=count, label=label))
+  geom_text(data = tibble(degree = mean(degree(mg)) + 2, count = 9, label = "mean"), mapping = aes(x = degree, y = count, label = label))
 ```
 
 ## Centrality
 
 One way to measure how important different nodes are is to calculate some measure of their "centrality". The degree of a node is the simplest measure of its centrality. Another measure is the "closeness centrality", which measures how close (in terms of number of hops across other nodes) a node is to all other nodes.
 ```{r}
-data.frame(closeness = closeness(mg)) %>%
-  ggplot() + geom_histogram(aes(x = closeness))
+tibble(closeness = closeness(mg)) |>
+  ggplot() + 
+  geom_histogram(aes(x = closeness))
 ```
 
 "Betweenness" centrality measures the extent to which a vertex is located ‘between’ other pairs of vertices.
 ```{r}
-data.frame(betweenness = betweenness(mg)) %>%
-  ggplot() + geom_histogram(aes(x = betweenness))
+tibble(betweenness = betweenness(mg)) |>
+  ggplot() + 
+  geom_histogram(aes(x = betweenness))
 ```
 
 Finally, "eigenvector" centrality measures how central a node is by how central the nodes are that are connected to it. This measure of centrality is very closely related to the original Google "PageRank" measure that Google used to rank websites for search.
 ```{r}
-data.frame(eigen_centrality = eigen_centrality(mg)$vector) %>%
-  ggplot() + geom_histogram(aes(x = eigen_centrality))
+tibble(eigen_centrality = eigen_centrality(mg)$vector) |>
+  ggplot() + 
+  geom_histogram(aes(x = eigen_centrality))
 ```
  ## What about graphs and `ggplot`? Enter: `ggraph`
  
@@ -259,7 +262,7 @@ library(tidygraph)
 
 ecoli = as_tbl_graph(regDB.adj, directed = FALSE) 
 
-ecoli %>%
+ecoli |>
   ggraph(layout = "fr") +
   geom_edge_link(color = "red") +
   geom_node_circle(aes(r=0.1)) + 
@@ -269,7 +272,7 @@ ecoli %>%
 ```{r}
 macaque_graph = tbl_graph(edges = macaques)
 
-macaque_graph %>%
+macaque_graph |>
   ggraph(layout = "fr") +
   geom_edge_link(aes(edge_width=weight), color="red") +
   scale_edge_width(range = c(0.1,1)) +
@@ -278,7 +281,7 @@ macaque_graph %>%
 ```
 A cool thing about `ggraph` though is that it has a few interesting layouts. For example, to do a circular graph, we say we want a `linear` layout with `circular=TRUE` with edges that are arcs using `geom_edge_arc`:
 ```{r}
-macaque_graph %>%
+macaque_graph |>
   ggraph(layout = "linear", circular = TRUE) +
   geom_edge_arc(aes(edge_width=weight, color=weight>5)) +
   scale_edge_width(range = c(0.1,1)) +
@@ -333,15 +336,15 @@ bike_graph = tbl_graph(edges = bike_edges)
 bike_graph %>%
   ggraph(layout = "fr") +
   geom_edge_link(aes(edge_width=Weight), color="red") +
-  scale_edge_width(range = c(0.1,10)) +
-  geom_node_circle(aes(r=0.02)) + 
+  scale_edge_width(range = c(0.1,5)) +
+  geom_node_circle(aes(r=0.04)) + 
   coord_fixed()
 ```
 
 
 # Lab ![](assets/beaker.png)
 
-None this week!
+Posted Thursday...
 
 
 [^1]: Kolaczyk, Eric D. and Csárdi, Gábor. 2020. Statistical Analysis of Network Data with R. Springer, New York, NY. <http://doi.org/10.1007/978-3-030-44129-6>. Github: <https://github.com/kolaczyk/sand>.

@@ -251,7 +251,7 @@ There are some recent books on data science and visualization (all written in
 of the material in the course.
 
 -   Wickham, Hadley, Grolemund, Garrett, and Mine Çetinkaya-Rundel. 2023. R for Data Science (2e). O’Reilly.
-    <   https://r4ds.hadley.nz/>
+    <https://r4ds.hadley.nz/>
 -   Wilke, Claus O. 2018. Fundamentals of Data Visualization.
     <https://clauswilke.com/dataviz/>
 -   Healy, Kieran. 2018. Data Visualization: A Practical Introduction.
