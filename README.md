@@ -339,7 +339,7 @@ as the semester progress.
 | 11 | 03/31 & 04/02 | Colors and heat maps | [html](https://vancleve.github.io/BIO540-DWV/week11.html) |
 | 12 | 04/07 | Visualizing/analyzing lots of data | [html](https://vancleve.github.io/BIO540-DWV/week12.html) |
 |  | 04/09 | **No class: JVC guest lecture** |  |
-| 13 | 04/14 | Networks |  |
+| 13 | 04/14 | Networks | [html](https://vancleve.github.io/BIO540-DWV/week13.html) |
 |  | 04/16 | **No class: JVC traveling** |  |
 | 14 | 04/21 | Interactive plots |  |
 |  | 04/23 | Project presentations |  |
