@@ -247,7 +247,7 @@ tibble(eigen_centrality = eigen_centrality(mg)$vector) |>
   ggplot() + 
   geom_histogram(aes(x = eigen_centrality))
 ```
- ## What about graphs and `ggplot`? Enter: `ggraph`
+## What about graphs and `ggplot`? Enter: `ggraph`
  
 According to the package author:
 > ggraph is an extension of ggplot2 aimed at supporting relational data structures such as networks, graphs, and trees. 
@@ -344,7 +344,23 @@ bike_graph %>%
 
 # Lab ![](assets/beaker.png)
 
-Posted Thursday...
+### Problems
+
+1. Use the data file `rugosa_social_network.csv`, which describes the social network of the sleepy lizard (*Tiliqua rugosa*)[^4] as an **adjacency matrix**. You may plot using the basic `igraph` functions or the `ggraph` ones.    
+    - Read in the file and convert it to a matrix to create a graph.
+    - There are `NA`s in the data; you'll need to convert those to `0` before creating the matrix for the graph.
+    - Use the function `column_to_rownames(YOURMATRIX, var = "ID")` before converting the data frame to a matrix since the graph functions like matrices with rownames.
+    - Make sure the function you use to create your graph knows whether the graph is weighted or directed.
+    - Plot the social network of the sleepy lizard.
+    - Make the node size proportional to the eigenvalue centrality of the node.
+    - What is the degree of the most highly connected lizard? Are there multiple lizards with this max degree?
+    
+2. Identify the dataset that you would like to use for your project talk
+    - Briefly describe the data.
+    - Briefly describe each of the figures you would like to make with these data.
+    - Identify any major hurdles to wrangling or plotting these data.
+    - You may change alter your dataset and figures for the final project talk, but use this as an opportunity to nail serious candidate dataset and figures.
+
 
 
 [^1]: Kolaczyk, Eric D. and Csárdi, Gábor. 2020. Statistical Analysis of Network Data with R. Springer, New York, NY. <http://doi.org/10.1007/978-3-030-44129-6>. Github: <https://github.com/kolaczyk/sand>.
