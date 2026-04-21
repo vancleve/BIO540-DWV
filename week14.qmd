@@ -119,7 +119,7 @@ subplot(ggplotly(gg), hist, nrows = 2) |>
     selected = attrs_selected(opacity = 1)
   )
 ```
-Create a data dashboard involves the construction and linking of multiple plot and selection elements that slice and display the data interactively. This give the data scientist a huge amount of flexibility in allowing the user to explore the data but it comes at the cost of steeply increased code complexity.
+Creating a data dashboard involves the construction and linking of multiple plot and selection elements that slice and display the data interactively. This give the data scientist a huge amount of flexibility in allowing the user to explore the data but it comes at the cost of steeply increased code complexity.
 
 # Dashboards
 
